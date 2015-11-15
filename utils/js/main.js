@@ -12,7 +12,7 @@ requirejs(['pouchdb-5.1.0.min'], function (Pouchdb) {
     // **********************************************************
     // ** Get elements
     // **********************************************************
-    elements.options = document.querySelector('#id');
+    elements.options = document.querySelector('#options');
     elements.result = document.querySelector('ul');
 
     // **********************************************************
