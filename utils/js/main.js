@@ -1,4 +1,4 @@
-/*jslint browser:true, nomen:true*/
+/*jslint browser:true, nomen:true, devel:true*/
 /*global requirejs*/
 requirejs(['pouchdb-5.1.0.min'], function (Pouchdb) {
     'use strict';
