@@ -8,3 +8,10 @@
     font-weight: normal;
     font-style: normal;
 }
+
+@font-face {
+    font-family: 'ubuntu-regular';
+    url('../fonts/Ubuntu-Regular-subset.woff') format('woff'),
+    font-weight: normal;
+    font-style: normal;
+}
