@@ -1,0 +1,17 @@
+CACHE MANIFEST
+/css/fonts.css
+/css/page.css
+/fonts/Ubuntu-Regular-subset.woff
+/fonts/Ubuntu-Regular-subset.ttf
+/icons/apple/name_tag_60.png
+/icons/apple/name_tag_76.png
+/icons/apple/name_tag_120.png
+/icons/apple/name_tag_152.png
+/img/bg20.gif
+/img/name_tag.svg
+/js/main.js
+/js/pouchdb-5.1.0.min.js
+/js/require.js
+
+NETWORK:
+*
