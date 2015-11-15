@@ -3,15 +3,17 @@
 requirejs(['pouchdb-5.1.0.min'], function (Pouchdb) {
     'use strict';
     var db = new Pouchdb('utils'),
-        remoteDb = new Pouchdb('https://utils.faterpg.nl/db/utils'),
+        remoteDb = new Pouchdb('https://utils.faterpg.nl/db/utils', {skip_setup: true}),
         elements = {},
-        sync, // handler for the replication
+//        sync, // handler for the replication
+        getNames,
         startSync;
 
     // **********************************************************
     // ** Get elements
     // **********************************************************
-    elements.generate = document.querySelector();
+    elements.options = document.querySelector('#id');
+    elements.result = document.querySelector('ul');
 
     // **********************************************************
     // ** Display Data
@@ -21,13 +23,22 @@ requirejs(['pouchdb-5.1.0.min'], function (Pouchdb) {
     // **********************************************************
     // **  Database interaction
     // **********************************************************
+    // Get names from the local database
+    getNames = function (type) {
+        db.get('names').then(function (doc) {
+            //var langs;
+            console.log(doc);
+        }).catch(function (err) {
+            console.error('Error getting names', err);
+        });
+    };
 
     // **********************************************************
     // **  Database replication
     // **********************************************************
     // Synchronise (master-master replication)
     startSync = function () {
-        sync = db.sync(remoteDb, {
+        db.sync(remoteDb, {
             live: true,
             retry: true
         }).on('change', function (change) {
@@ -47,11 +58,15 @@ requirejs(['pouchdb-5.1.0.min'], function (Pouchdb) {
     // **  UI Events
     // **********************************************************
     // Generate pushed
-
+    elements.options.addEventListener('click', function (ev) {
+        if (ev.target.nodeName === 'BUTTON') {
+            getNames(ev.target.value);
+        }
+    });
 
     // **********************************************************
     // **  MAIN
     // **********************************************************
-//    startSync();
+    startSync();
 
 });
