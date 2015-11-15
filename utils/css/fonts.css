@@ -1,10 +1,7 @@
 @font-face {
     font-family: 'icomoon';
-    src:url('../fonts/icomoon.eot?8ww1wf');
-    src:url('../fonts/icomoon.eot?#iefix8ww1wf') format('embedded-opentype'),
-    url('../fonts/icomoon.woff?8ww1wf') format('woff'),
-    url('../fonts/icomoon.ttf?8ww1wf') format('truetype'),
-    url('../fonts/icomoon.svg?8ww1wf#icomoon') format('svg');
+    src:url('../fonts/icomoon.woff') format('woff'),
+        url('../fonts/icomoon.ttf') format('truetype'); /* For android 4.x internal browser */
     font-weight: normal;
     font-style: normal;
 }
