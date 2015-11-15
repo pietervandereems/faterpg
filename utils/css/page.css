@@ -1,26 +1,28 @@
 @charset "utf-8";
 /* Some default settings */
+* {
+    font-family: "ubuntu", "ubuntu-regular", sans-serif;
+    font-size: 1.5em;
+}
+
 * + * {
     margin-top: 0.5em;
 }
 
-li {
-    margin: 0;
-}
-
 body {
-    background-image: url("../img/bg20.gif");
     background-color: black;
+    background-image: url("../img/bg20.gif");
     color: silver;
     margin: 0.5em;
     margin-top: 0;
-    font-family: "ubuntu", "ubuntu-regular", sans-serif;
 }
 
+button {
+    font-size: 0.75em;
+}
 
-/* use icomoon font for icons*/
-.icon {
-    font-family: 'icomoon';
+li {
+    margin: 0;
 }
 
 
