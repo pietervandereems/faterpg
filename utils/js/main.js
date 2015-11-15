@@ -53,7 +53,7 @@ requirejs(['pouchdb-5.1.0.min'], function (Pouchdb) {
         db.get('names').then(function (doc) {
             var langs = getDocObjects(doc),
                 fnLang = langs[getRandomInt(0, langs.length - 1)],
-                lnLang = langs[getRandomInt(0, langs.length - 1)],
+                lnLang = langs[getRandomInt(0, langs.length - 1)].lastnames,
                 li = document.createElement('li'),
                 firstnameList;
             firstnameList = fnLang.firstnames[type] || getRandomObject(fnLang.firstnames);
@@ -72,16 +72,8 @@ requirejs(['pouchdb-5.1.0.min'], function (Pouchdb) {
         db.sync(remoteDb, {
             live: true,
             retry: true
-        }).on('change', function (change) {
-            console.log('change', {dt: new Date().toISOString(), change: change});
-        }).on('paused', function (info) {
-            console.log('paused', {dt: new Date().toISOString(), info: info});
-        }).on('active', function (info) {
-            console.log('active', {dt: new Date().toISOString(), info: info});
         }).on('error', function (err) {
             console.error('Error in Sync (retry is true)', err);
-        }).on('completed', function (info) {
-            console.log('Sync completed, was replication cancelled?', info);
         });
     };
 
