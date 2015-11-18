@@ -1,0 +1,15 @@
+@font-face {
+    font-family: 'ubuntu-regular';
+    src:url('../fonts/Ubuntu-Regular-subset.woff') format('woff'),
+        url('../fonts/Ubuntu-Regular-subset.ttf') format('truetype'); /* For android 4.x internal browser */
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'fate-core';
+    src:url('../fonts/Fate Core Font.woff') format('woff'),
+        url('../fonts/Fate Core Font.tff') format('truetype'); /* For android 4.x internal browser */
+    font-weight: normal;
+    font-style: normal;
+}
