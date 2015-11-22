@@ -17,6 +17,35 @@ body {
     margin-top: 0;
 }
 
+header {
+    background          : rgb(27,117,188);
+    background          : linear-gradient(to bottom, rgb(27,117,188) 0,rgb(21,89,143) 100%);
+    color               : white;
+    text-transform      : uppercase;
+
+    display             : flex;
+    flex-direction      : row;
+    flex-wrap           : nowrap;
+    justify-content     : space-around;
+    padding             : 0.5em;
+    margin-left         : -0.5em;
+    margin-right        : -0.5em;
+
+    /* old browser support */
+    display                 : -webkit-flex;
+    -webkit-flex-direction  : row;
+    -webkit-flex-wrap       : nowrap;
+    -webkit-justify-content : space-around;
+
+    display                 : -ms-flexbox;
+    -ms-flex-direction      : row;
+    -ms-flex-wrap           : nowrap;
+    -ms-justify-content     : space-around;
+
+}
+
+
+
 /*
 Copyright 2015 Pieter van der Eems
 This file is part of CreateFate
