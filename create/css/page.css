@@ -60,6 +60,27 @@ header img {
     padding: 5px;
 }
 
+#list ul {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+}
+
+#list li {
+    margin: 0;
+    padding: 0;
+    background: white;
+    color: black;
+}
+
+#list li h3 {
+    color: rgb(55,108,190);
+}
+
+#display {
+    
+}
+
 /*
 Copyright 2015 Pieter van der Eems
 This file is part of CreateFate
