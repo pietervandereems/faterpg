@@ -40,6 +40,11 @@ header h1 {
     text-shadow: 1px 1.5px 2px rgba(0,0,0,.9);
 }
 
+header img {
+    align-self: flex-end;
+    height: 1em;
+}
+
 #main {
     display             : flex;
     flex-direction      : row;
