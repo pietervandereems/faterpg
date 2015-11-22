@@ -13,8 +13,7 @@ body {
     background-color: black;
     background-image: url("../img/bg20.gif");
     color: silver;
-    margin: 0.5em;
-    margin-top: 0;
+    margin: 0;
 }
 
 header {
@@ -26,22 +25,34 @@ header {
     display             : flex;
     flex-direction      : row;
     flex-wrap           : nowrap;
-    justify-content     : space-around;
-    padding             : 0.5em;
-    margin-left         : -0.5em;
-    margin-right        : -0.5em;
+    justify-content     : flex-start;
 
-    /* old browser support */
+    /* old IOS browser support */
     display                 : -webkit-flex;
     -webkit-flex-direction  : row;
     -webkit-flex-wrap       : nowrap;
-    -webkit-justify-content : space-around;
+    -webkit-justify-content : flex-start;
+}
 
-    display                 : -ms-flexbox;
-    -ms-flex-direction      : row;
-    -ms-flex-wrap           : nowrap;
-    -ms-justify-content     : space-around;
+header h1 {
+    font-size: 1.4em;
+    margin-left: 0.5em;
+    text-shadow: 1px 1.5px 2px rgba(0,0,0,.9);
+}
 
+#main {
+    display             : flex;
+    flex-direction      : row;
+    flex-wrap           : nowrap;
+    justify-content     : flex-start;
+    align-items         : stretch;
+
+    /* old IOS browser support */
+    display                 : -webkit-flex;
+    -webkit-flex-direction  : row;
+    -webkit-flex-wrap       : nowrap;
+    -webkit-justify-content : flex-start;
+    -webkit-align-items     : stretch;
 }
 
 
