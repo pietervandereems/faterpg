@@ -74,6 +74,14 @@ header img {
     padding: 5px;
 }
 
+#main section.show {
+    display: initial;
+}
+
+#main section h2 {
+    border-bottom: 1px solid red;
+}
+
 .buttons {
     list-style-type: none;
     margin: 0;
@@ -92,9 +100,6 @@ header img {
     margin-top: 0;
 }
 
-#main section.show {
-    display: initial;
-}
 
 /*
 Copyright 2015 Pieter van der Eems
