@@ -23,15 +23,31 @@
         <img src="img/Powered by Fate Final Light BG.svg"></img>
     </header>
     <div id="main">
-        <section id="list">
+        <section>
             <h2>List</h2>
-            <ul>
+            <ul class="buttons">
                 <li>Pieter</li>
                 <li>Quindo</li>
             </ul>
         </section>
-        <section id="display">
-            <h2>Display</h2>
+        <section id="game" class="show">
+            <h2>Game Setting</h2>
+            <label>Scale:<input type="text" placeholder="Epic/small"></label>
+            <label>Current Issues:
+                <ol>
+                    <li><input type="text" name="g_c_issue_1" placeholder="There is a lot of water"></li>
+                </ol>
+            </label>
+            <label>Impending Isues:
+                <ol>
+                    <li><input type="text" name="g_i_issue_1" placeholder="There will be more water"></li>
+                </ol>
+            </label>
+            <label>Aspects:
+                <ol>
+                    <li><textarea name="g_aspect_1" placeholder="Water is everywhere"></li>
+                </ol>
+            </label>
         </section>
     </div>
 </body>

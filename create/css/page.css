@@ -57,17 +57,27 @@ header img {
     -webkit-align-items     : stretch;
 }
 
+#main section:not(:first-child) {
+    display: none;
+    background-color: white;
+    color: black;
+}
+
+#main section:not(:first-child) label {
+    color: rgb(55,108,190);
+}
+
 #main section {
     padding: 5px;
 }
 
-#list ul {
+.buttons ul {
     list-style-type: none;
     margin: 0;
     padding: 0;
 }
 
-#list li {
+.buttons ul li {
     margin: 0;
     margin-top: 0.5em;
     padding: 0.5em;
@@ -75,12 +85,12 @@ header img {
     color: white;
 }
 
-#list li:first-child {
+.buttons ul li:first-child {
     margin-top: 0;
 }
 
-#display {
-    
+.show {
+    display: initial;
 }
 
 /*
