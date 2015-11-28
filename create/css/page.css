@@ -92,8 +92,8 @@ header img {
     margin-top: 0;
 }
 
-#main .show {
-    display: initial !important;
+#main section.show {
+    display: initial;
 }
 
 /*
