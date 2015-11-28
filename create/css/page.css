@@ -61,6 +61,8 @@ header img {
     display: none;
     background-color: white;
     color: black;
+    box-shadow: 5px 2px 19px 0 rgba(0,0,0,.7);
+    border-radius: 0.5em;
 }
 
 #main section:not(:first-child) label {
