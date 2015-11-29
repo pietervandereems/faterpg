@@ -1,7 +1,7 @@
 @charset "utf-8";
 /* Some default settings */
 html {
-    font-family: "ubuntu", "ubuntu-regular", sans-serif;
+    font-family: "source-code-pro", monospace;
     font-size: 1em;
 }
 
@@ -107,7 +107,7 @@ header img {
 
 .note h2 {
     color: black;
-    font-family: "ubuntu", "ubuntu-regular", sans-serif;
+    font-family: "source-code-pro", monospace;
     font-size: 1em;
     text-transform: uppercase;
 }
