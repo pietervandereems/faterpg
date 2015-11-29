@@ -1,6 +1,6 @@
 @charset "utf-8";
 /* Some default settings */
-* {
+html {
     font-family: "ubuntu", "ubuntu-regular", sans-serif;
     font-size: 1em;
 }
@@ -57,17 +57,13 @@ header img {
     -webkit-align-items     : stretch;
 }
 
-#main section:not(:first-child) {
+#main>section:not(:first-child) {
     display: none;
     background-color: white;
     color: black;
     box-shadow: 5px 2px 19px 0 rgba(0,0,0,.7);
     border-radius: 0.5em;
     margin: 1em;
-}
-
-#main section:not(:first-child) label {
-    color: rgb(55,108,190);
 }
 
 #main section {
