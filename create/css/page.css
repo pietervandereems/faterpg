@@ -103,6 +103,7 @@ header img {
     font-family: "pacifico", "Georgia", "serif";
     color: rgb(27, 117, 188);
     box-shadow: 1px 1px 5px 0 rgba(0,0,0,.3);
+    margin: 1em;
 }
 
 .note h2 {
@@ -119,6 +120,17 @@ header img {
     border: none;
     background: inherit;
     color: black;
+    margin-left: 0.5em;
+}
+
+.note ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+
+.note ol {
+    padding-left: 2em;
 }
 
 /*
