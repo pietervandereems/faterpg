@@ -21,3 +21,11 @@
     font-weight: normal;
     font-style: normal;
 }
+
+@font-face {
+    font-family: 'dosis';
+    src:url('../fonts/Dosis-Regular-subset.woff') format('woff'),
+        url('../fonts/Dosis-Regular-subset.ttf') format('truetype'); /* For android 4.x internal browser */
+    font-weight: normal;
+    font-style: normal;
+}
