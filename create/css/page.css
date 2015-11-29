@@ -107,7 +107,7 @@ header img {
 
 .note h2 {
     color: black;
-    font-family: "source-code-pro", monospace;
+    font-family: initial;
     font-size: 1em;
     text-transform: uppercase;
 }
