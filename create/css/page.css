@@ -112,6 +112,15 @@ header img {
     text-transform: uppercase;
 }
 
+.note input,textarea {
+    font-family: inherit;
+    font-size: 1em;
+    width: 10em;
+    border: none;
+    background: inherit;
+    color: black;
+}
+
 /*
 Copyright 2015 Pieter van der Eems
 This file is part of CreateFate
