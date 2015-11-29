@@ -1,12 +1,4 @@
 @font-face {
-    font-family: 'ubuntu-regular';
-    src:url('../fonts/Ubuntu-Regular-subset.woff') format('woff'),
-        url('../fonts/Ubuntu-Regular-subset.ttf') format('truetype'); /* For android 4.x internal browser */
-    font-weight: normal;
-    font-style: normal;
-}
-
-@font-face {
     font-family: 'fate-core';
     src:url('../fonts/Fate Core Font.woff') format('woff'),
         url('../fonts/Fate Core Font.tff') format('truetype'); /* For android 4.x internal browser */
@@ -21,23 +13,10 @@
     font-weight: normal;
     font-style: normal;
 }
-
-@font-face {
-    font-family: 'dosis';
-    src:url('../fonts/Dosis-Regular-subset.woff') format('woff'),
-        url('../fonts/Dosis-Regular-subset.ttf') format('truetype'); /* For android 4.x internal browser */
-    font-weight: normal;
-    font-style: normal;
-}
 @font-face {
     font-family: 'source-code-pro';
-    src:url('../fonts/SourceCodePro-Regular.ttf') format('truetype'); /* For android 4.x internal browser */
-    font-weight: normal;
-    font-style: normal;
-}
-@font-face {
-    font-family: 'droid-sans-mono';
-    src:url('../fonts/DroidSansMono.ttf') format('truetype'); /* For android 4.x internal browser */
+    src:url('../fonts/SourceCodePro-Regular-subset.woff') format('woff'),
+        url('../fonts/SourceCodePro-Regular-subset.ttf') format('truetype'); /* For android 4.x internal browser */
     font-weight: normal;
     font-style: normal;
 }
