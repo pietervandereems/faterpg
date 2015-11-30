@@ -66,6 +66,10 @@ header img {
     .buttons li {
         display: inline;
     }
+
+    .button {
+        padding-top: 1em;
+    }
 }
 
 #main>section:not(:first-child) {
@@ -93,6 +97,7 @@ header img {
     list-style-type: none;
     margin: 0;
     padding: 0;
+    padding-top: 0.5em;
 }
 
 .buttons li {
