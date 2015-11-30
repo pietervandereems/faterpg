@@ -57,6 +57,13 @@ header img {
     -webkit-align-items     : stretch;
 }
 
+@media screen and (max-width: 601px) {
+    #main {
+        flex-direction : column;
+        -webkit-flex-direction: column;
+    }
+}
+
 #main>section:not(:first-child) {
     display: none;
     background-color: white;
