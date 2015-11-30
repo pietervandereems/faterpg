@@ -57,20 +57,6 @@ header img {
     -webkit-align-items     : stretch;
 }
 
-@media screen and (max-width: 601px) {
-    #main {
-        flex-direction : column;
-        -webkit-flex-direction: column;
-    }
-
-    .buttons li {
-        display: inline;
-    }
-
-    .buttons {
-        padding-top: 1em;
-    }
-}
 
 #main>section:not(:first-child) {
     display: none;
@@ -147,6 +133,21 @@ header img {
 
 .note ol {
     padding-left: 2em;
+}
+
+@media screen and (max-width: 601px) { /* lower down because later has higher prio in css */
+    #main {
+        flex-direction : column;
+        -webkit-flex-direction: column;
+    }
+
+    .buttons li {
+        display: inline;
+    }
+
+    .buttons {
+        padding-top: 1em;
+    }
 }
 
 /*
