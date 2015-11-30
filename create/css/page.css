@@ -62,6 +62,10 @@ header img {
         flex-direction : column;
         -webkit-flex-direction: column;
     }
+
+    .buttons ul {
+        display: inline;
+    }
 }
 
 #main>section:not(:first-child) {
