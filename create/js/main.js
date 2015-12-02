@@ -14,7 +14,7 @@ requirejs(['pouchdb'], function (Pouchdb) {
         if (ev.target.dataset.section) {
             sectionElm = document.getElementById(ev.target.dataset.section);
             console.log(sectionElm);
-            if (sectionElm.dataset.active !== "true") {
+            if (ev.target.dataset.active !== "true") {
                 console.log('switch please');
             }
         }
