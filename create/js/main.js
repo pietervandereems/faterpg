@@ -11,8 +11,12 @@ requirejs(['pouchdb'], function (Pouchdb) {
      * Helper functions
      */
     showSection = function (elm) {
-        document.querySelector('#main>section[class~="show"]').classList.remove('show');
+        var oldShow = document.querySelector('#main>section[class~="show"]');
+
+        oldShow.classList.remove('show');
+        document.querySelector('#nav li[data-section="' + oldShow.id + '"]').dataset.active = 'false';
         elm.classList.add('show');
+        elm.dataset.active = 'true';
     };
 
     /*
