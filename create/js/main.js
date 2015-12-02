@@ -10,13 +10,13 @@ requirejs(['pouchdb'], function (Pouchdb) {
     /*
      * Helper functions
      */
-    showSection = function (elm) {
+    showSection = function (elm, selector) {
         var oldShow = document.querySelector('#main>section[class~="show"]');
 
         oldShow.classList.remove('show');
-        document.querySelector('#nav li[data-section="' + oldShow.id + '"]').dataset.active = 'false';
+        document.querySelector('nav li[data-section="' + oldShow.id + '"]').dataset.active = 'false';
         elm.classList.add('show');
-        elm.dataset.active = 'true';
+        selector.dataset.active = 'true';
     };
 
     /*
@@ -30,7 +30,7 @@ requirejs(['pouchdb'], function (Pouchdb) {
             }
             sectionElm = document.getElementById(ev.target.dataset.section);
             if (sectionElm) {
-                showSection(sectionElm);
+                showSection(sectionElm, ev.target);
             }
         }
     });
