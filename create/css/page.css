@@ -106,6 +106,7 @@ header img {
 .buttons li[data-active="true"] {
     background: rgb(154,70,153);
     border-radius: 0.5em;
+    cursor: default;
 }
 
 .note {
