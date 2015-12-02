@@ -2,7 +2,7 @@
 /*global requirejs*/
 requirejs(['pouchdb'], function (Pouchdb) {
     'use strict';
-    var elements;
+    var elements = {};
 
     elements.nav = document.querySelector('nav');
 
