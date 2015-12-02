@@ -9,7 +9,7 @@ requirejs(['pouchdb'], function (Pouchdb) {
     /*
      * React to user interaction
      */
-    elements.nav.addEventListener(function (ev) {
+    elements.nav.addEventListener('click', function (ev) {
         if (ev.target.dataset.section) {
             console.log(document.getElementById(ev.target.dataset.section));
         }
