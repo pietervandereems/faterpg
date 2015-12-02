@@ -24,7 +24,10 @@ requirejs(['pouchdb'], function (Pouchdb) {
      */
     elements.nav.addEventListener('click', function (ev) {
         var sectionElm;
-        if (ev.target.dataset.section && (ev.target.dataset.active && ev.target.dataset.active !== "true")) {
+        if (ev.target.dataset.section) {
+            if (ev.target.dataset.active && ev.target.dataset.active === "true") {
+                return;
+            }
             sectionElm = document.getElementById(ev.target.dataset.section);
             if (sectionElm) {
                 showSection(sectionElm);
