@@ -10,8 +10,13 @@ requirejs(['pouchdb'], function (Pouchdb) {
      * React to user interaction
      */
     elements.nav.addEventListener('click', function (ev) {
+        var sectionElm;
         if (ev.target.dataset.section) {
-            console.log(document.getElementById(ev.target.dataset.section));
+            sectionElm = document.getElementById(ev.target.dataset.section);
+            console.log(sectionElm);
+            if (sectionElm.dataset.active !== "true") {
+                console.log('switch please');
+            }
         }
     });
 });
