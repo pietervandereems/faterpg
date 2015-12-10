@@ -82,7 +82,7 @@ requirejs(['pouchdb'], function (Pouchdb) {
         }
     });
 
-    setting.section('change', function () {
+    setting.section.addEventListener('change', function () {
         setting.save();
     });
 
