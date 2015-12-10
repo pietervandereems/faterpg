@@ -6,12 +6,18 @@ requirejs(['pouchdb'], function (Pouchdb) {
         remoteDb = new Pouchdb('https://create.faterpg.nl/db/faterpg'),
         showSection,
         setBatteryManagers,
-        replicato
+        startReplicator,
+        stopReplicator,
+        setting = {
+            doc: {
+                _id: 'setting'
+            }
+        },
         elements = {},
-        replTo,
-        replFrom;
+        replicator;
 
     elements.nav = document.querySelector('nav');
+    setting.section = document.querySelector('section[data-input="setting"]');
 
     /*
      * Helper functions
@@ -23,6 +29,41 @@ requirejs(['pouchdb'], function (Pouchdb) {
         document.querySelector('nav li[data-section="' + oldShow.id + '"]').dataset.active = 'false';
         elm.classList.add('show');
         selector.dataset.active = 'true';
+    };
+
+    /*
+     * Setting manipulation
+     */
+    setting.save = function () {
+        var createList;
+
+        createList = function (nodeList) {
+            var list = [];
+            nodeList.forEach(function (item) {
+                list.push(item.value);
+            });
+            return list;
+        };
+        setting.doc.name = setting.section.querySelector('input[name="name"]').value;
+        setting.doc.scale = setting.section.querySelector('input[name="scale"]').value;
+        setting.doc.currentIssues = createList(setting.section.querySelectorAll('input[name="c_issue"]'));
+        setting.doc.impendingIssues = createList(setting.section.querySelectorAll('input[name="i_issue"]'));
+        setting.doc.aspects = createList(setting.section.querySelectorAll('input[name="aspect"]'));
+        localDb.put(setting.doc).then(function (response) {
+            setting.doc._rev = response.rev;
+        }).catch(function (err) {
+            console.error('Error saving setting doc', {err: err, doc: setting.doc, localDb: localDb});
+        });
+    };
+
+    setting.get = function () {
+        localDb.get(setting.doc._id).then(function (doc) {
+            setting.doc = doc;
+            setting.section.querySelector('input[name="name"]').value = setting.doc.name;
+            setting.section.querySelector('input[name="scale"]').value = setting.doc.scale;
+        }).catch(function (err) {
+            console.error('Error getting settings doc', {err: err, doc: setting.doc, localDb: localDb});
+        });
     };
 
     /*
@@ -41,8 +82,21 @@ requirejs(['pouchdb'], function (Pouchdb) {
         }
     });
 
-    replFrom = localDb.replicate.from(remoteDb);
-    replTo = localDb.replicate.to(remoteDb);
+    setting.section('change', function () {
+        setting.save();
+    });
+
+    /*
+     * Replicator
+     */
+
+    startReplicator = function () {
+        replicator = Pouchdb.sync(localDb, remoteDb);
+    };
+
+    stopReplicator = function () {
+        replicator.cancel();
+    };
 
     // **************************************************************************************************
     // Offline usage, this code is situated last to ensure everything is defined
@@ -56,15 +110,13 @@ requirejs(['pouchdb'], function (Pouchdb) {
             battery.addEventListener('levelchange', levelListener);
             if (!replicator || replicator.cancelled) {
                 startReplicator();
-                setMsg('We have power again, starting replication archetypes');
             }
         };
         lowMode = function () {
             if (!replicator.cancelled) {
-                replicator.cancel();
+                stopReplicator();
             }
             battery.removeEventListener('levelchange', levelListener);
-            setMsg('Low battery, halting replication archetypes');
         };
         levelListener = function () {
             if (!battery.charging && battery.level < 0.18) { // battery at 17% or less
@@ -96,5 +148,4 @@ requirejs(['pouchdb'], function (Pouchdb) {
                 setBatteryManagers(battery);
             });
     }
-});
 });
