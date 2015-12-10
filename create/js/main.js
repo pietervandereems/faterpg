@@ -38,8 +38,10 @@ requirejs(['pouchdb'], function (Pouchdb) {
         var createList;
 
         createList = function (nodeList) {
-            var list = [];
-            nodeList.forEach(function (item) {
+            var keys = Object.keys(nodeList),
+                list = [];
+            keys.forEach(function (item) {
+                var elm = nodeList[item];
                 list.push(item.value);
             });
             return list;
