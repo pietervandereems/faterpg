@@ -100,6 +100,11 @@ requirejs(['pouchdb'], function (Pouchdb) {
         replicator.cancel();
     };
 
+    /*
+     * MAIN
+     */
+    setting.get();
+
     // **************************************************************************************************
     // Offline usage, this code is situated last to ensure everything is defined
     // **************************************************************************************************
