@@ -109,6 +109,15 @@ requirejs(['pouchdb'], function (Pouchdb) {
     setting.section.addEventListener('keypress', function (ev) {
         var parentList,
             parentItem;
+        if (ev.key && ev.key !== 'Enter') {
+            return;
+        }
+        if (ev.keyCode && ev.keyCode !== 13) {
+            return;
+        }
+        if (ev.which && ev.which !== 13) {
+            return;
+        }
         if (ev.target.dataset.repeatable) {
             parentItem = findParent(ev.target, 'LI');
             if (parentItem.nextElementSibling === null) { // We are the last item in the list, so add a new item like this
