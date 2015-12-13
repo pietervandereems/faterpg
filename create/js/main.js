@@ -1,10 +1,10 @@
-/*jslint browser:true, nomen:true*/
-/*global requirejs*/
+/*jslint browser:true*/ /*global requirejs*/
 requirejs(['pouchdb'], function (Pouchdb) {
     'use strict';
     var localDb = new Pouchdb('faterpg'),
         remoteDb = new Pouchdb('https://create.faterpg.nl/db/faterpg'),
         showSection,
+        findParent,
         setBatteryManagers,
         startReplicator,
         stopReplicator,
@@ -31,6 +31,25 @@ requirejs(['pouchdb'], function (Pouchdb) {
         selector.dataset.active = 'true';
     };
 
+    findParent = function (node, tags) {
+        var found = false;
+        if (node.tagName === 'BODY') {
+            return false;
+        }
+        if (!Array.isArray(tags)) {
+            tags = [tags];
+        }
+        tags.forEach(function (tag) {
+            if (node.tagName === tag.toUpperCase()) {
+                found = true;
+            }
+        });
+        if (found) {
+            return node;
+        }
+        return findParent(node.parentNode, tags);
+    };
+
     /*
      * Setting manipulation
      */
@@ -41,7 +60,6 @@ requirejs(['pouchdb'], function (Pouchdb) {
             var keys = Object.keys(nodeList),
                 list = [];
             keys.forEach(function (item) {
-                var elm = nodeList[item];
                 list.push(item.value);
             });
             return list;
@@ -86,6 +104,18 @@ requirejs(['pouchdb'], function (Pouchdb) {
 
     setting.section.addEventListener('change', function () {
         setting.save();
+    });
+
+    setting.section.addEventListener('keypress', function (ev) {
+        var parentList,
+            parentItem;
+        if (ev.target.dataset.repeatable) {
+            parentItem = findParent(ev.target, 'LI');
+            if (parentItem.nextElementSibling === null) { // We are the last item in the list, so add a new item like this
+                parentList = findParent(parentItem, ['OL', 'UL']);
+                parentList.addChild(parentItem.cloneNode(true));
+            }
+        }
     });
 
     /*
