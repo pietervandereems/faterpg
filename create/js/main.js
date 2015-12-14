@@ -122,7 +122,7 @@ requirejs(['pouchdb'], function (Pouchdb) {
             parentItem = findParent(ev.target, 'LI');
             if (parentItem.nextElementSibling === null) { // We are the last item in the list, so add a new item like this
                 parentList = findParent(parentItem, ['OL', 'UL']);
-                parentList.addChild(parentItem.cloneNode(true));
+                parentList.appendChild(parentItem.cloneNode(true));
             }
         }
     });
