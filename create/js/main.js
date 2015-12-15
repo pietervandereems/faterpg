@@ -139,6 +139,10 @@ requirejs(['pouchdb'], function (Pouchdb) {
         replicator.cancel();
     };
 
+    replicator.on('change', function (info) {
+        console.log('change', info);
+    });
+
     /*
      * MAIN
      */
