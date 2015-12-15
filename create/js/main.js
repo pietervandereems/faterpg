@@ -66,17 +66,13 @@ requirejs(['pouchdb'], function (Pouchdb) {
      * Setting manipulation
      */
     setting.save = function () {
-console.log('save');
         var createList;
 
         createList = function (nodeList) {
-console.log('createList', nodeList);
-            var keys = Object.keys(nodeList),
-                list = [];
-            keys.forEach(function (item) {
-                list.push(item.value);
+            var list = [];
+            Object.keys(nodeList).forEach(function (key) {
+                list.push(nodeList[key].value);
             });
-console.log('Created list', list);
             return list;
         };
         setting.doc.name = setting.section.querySelector('input[name="name"]').value;
@@ -84,7 +80,6 @@ console.log('Created list', list);
         setting.doc.currentIssues = createList(setting.section.querySelectorAll('input[name="c_issue"]'));
         setting.doc.impendingIssues = createList(setting.section.querySelectorAll('input[name="i_issue"]'));
         setting.doc.aspects = createList(setting.section.querySelectorAll('input[name="aspect"]'));
-console.log('Saving doc', doc);
         localDb.put(setting.doc).then(function (response) {
             setting.doc._rev = response.rev;
         }).catch(function (err) {
