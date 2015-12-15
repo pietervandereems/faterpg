@@ -135,10 +135,13 @@ requirejs(['pouchdb'], function (Pouchdb) {
         if (ev.key && ev.key !== 'Enter') {
             return;
         }
-        if (ev.keyCode && ev.keyCode !== 13) {
+        if (ev.keyCode && (ev.keyCode !== 13 && ev.keyCode !== 10)) {
             return;
         }
-        if (ev.which && ev.which !== 13) {
+        if (ev.which && (ev.which !== 13 && ev.which !== 10)) {
+            return;
+        }
+        if (ev.target.tagname === "TEXTAREA" && !ev.ctrlKey) { // in a text area, only react to ctrl-enter
             return;
         }
         if (ev.target.dataset.repeatable) { // if <enter> was pressed on a repeatable item, clone it and add it to the list
