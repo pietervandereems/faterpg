@@ -129,7 +129,8 @@ requirejs(['pouchdb'], function (Pouchdb) {
 
     setting.section.addEventListener('keypress', function (ev) {
         var parentList,
-            parentItem;
+            parentItem,
+            newItem;
         if (ev.key && ev.key !== 'Enter') {
             return;
         }
@@ -139,11 +140,13 @@ requirejs(['pouchdb'], function (Pouchdb) {
         if (ev.which && ev.which !== 13) {
             return;
         }
-        if (ev.target.dataset.repeatable) {
+        if (ev.target.dataset.repeatable) { // if <enter> was pressed on a repeatable item, clone it and add it to the list
             parentItem = findParent(ev.target, 'LI');
             if (parentItem.nextElementSibling === null) { // We are the last item in the list, so add a new item like this
                 parentList = findParent(parentItem, ['OL', 'UL']);
-                parentList.appendChild(parentItem.cloneNode(true));
+                newItem = parentItem.cloneNode(true);
+                newItem.value = '';
+                parentList.appendChild(newItem);
             }
         }
     });
