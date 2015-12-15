@@ -130,7 +130,8 @@ requirejs(['pouchdb'], function (Pouchdb) {
     setting.section.addEventListener('keypress', function (ev) {
         var parentList,
             parentItem,
-            newItem;
+            newItem,
+            newInput;
         if (ev.key && ev.key !== 'Enter') {
             return;
         }
@@ -145,8 +146,10 @@ requirejs(['pouchdb'], function (Pouchdb) {
             if (parentItem.nextElementSibling === null) { // We are the last item in the list, so add a new item like this
                 parentList = findParent(parentItem, ['OL', 'UL']);
                 newItem = parentItem.cloneNode(true);
-                newItem.querySelector('input').value = '';
+                newInput = newItem.querySelector('input');
+                newInput.value = '';
                 parentList.appendChild(newItem);
+                newInput.focus();
             }
         }
     });
