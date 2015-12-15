@@ -133,15 +133,16 @@ requirejs(['pouchdb'], function (Pouchdb) {
 
     startReplicator = function () {
         replicator = Pouchdb.sync(localDb, remoteDb);
+
+        replicator.on('change', function (info) {
+            console.log('change', info);
+        });
     };
 
     stopReplicator = function () {
         replicator.cancel();
     };
 
-    replicator.on('change', function (info) {
-        console.log('change', info);
-    });
 
     /*
      * MAIN
