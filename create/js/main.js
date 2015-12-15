@@ -1,9 +1,11 @@
-/*jslint browser:true*/ /*global requirejs*/
+/*jslint browser:true nomen:true*/
+/*global requirejs*/
 requirejs(['pouchdb'], function (Pouchdb) {
     'use strict';
     var localDb = new Pouchdb('faterpg'),
         remoteDb = new Pouchdb('https://create.faterpg.nl/db/faterpg'),
         showSection,
+        handleChanges,
         findParent,
         setBatteryManagers,
         startReplicator,
@@ -50,6 +52,16 @@ requirejs(['pouchdb'], function (Pouchdb) {
         return findParent(node.parentNode, tags);
     };
 
+    handleChanges = function (changes) {
+        if (Array.isArray(changes.docs)) {
+            changes.docs.forEach(function (doc) {
+                if (doc._id === 'setting') {
+                    setting.get(doc);
+                }
+            });
+        }
+    };
+
     /*
      * Setting manipulation
      */
@@ -76,14 +88,24 @@ requirejs(['pouchdb'], function (Pouchdb) {
         });
     };
 
-    setting.get = function () {
-        localDb.get(setting.doc._id).then(function (doc) {
+    setting.get = function (changeDoc) {
+        var process;
+
+        process = function (doc) {
             setting.doc = doc;
             setting.section.querySelector('input[name="name"]').value = setting.doc.name;
             setting.section.querySelector('input[name="scale"]').value = setting.doc.scale;
-        }).catch(function (err) {
-            console.error('Error getting settings doc', {err: err, doc: setting.doc, localDb: localDb});
-        });
+        };
+
+        if (changeDoc) {
+            process(changeDoc);
+        } else {
+            localDb.get(setting.doc._id).then(function (doc) {
+                process(doc);
+            }).catch(function (err) {
+                console.error('Error getting settings doc', {err: err, doc: setting.doc, localDb: localDb});
+            });
+        }
     };
 
     /*
@@ -136,7 +158,10 @@ requirejs(['pouchdb'], function (Pouchdb) {
             live: true,
             retry: true
         }).on('change', function (info) {
-            console.log('change', info);
+            if (info.direction === 'pull') {
+                console.log('Incoming change', info);
+                handleChanges(info);
+            }
         });
     };
 
