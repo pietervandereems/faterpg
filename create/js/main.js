@@ -66,14 +66,17 @@ requirejs(['pouchdb'], function (Pouchdb) {
      * Setting manipulation
      */
     setting.save = function () {
+console.log('save');
         var createList;
 
         createList = function (nodeList) {
+console.log('createList', nodeList);
             var keys = Object.keys(nodeList),
                 list = [];
             keys.forEach(function (item) {
                 list.push(item.value);
             });
+console.log('Created list', list);
             return list;
         };
         setting.doc.name = setting.section.querySelector('input[name="name"]').value;
@@ -81,6 +84,7 @@ requirejs(['pouchdb'], function (Pouchdb) {
         setting.doc.currentIssues = createList(setting.section.querySelectorAll('input[name="c_issue"]'));
         setting.doc.impendingIssues = createList(setting.section.querySelectorAll('input[name="i_issue"]'));
         setting.doc.aspects = createList(setting.section.querySelectorAll('input[name="aspect"]'));
+console.log('Saving doc', doc);
         localDb.put(setting.doc).then(function (response) {
             setting.doc._rev = response.rev;
         }).catch(function (err) {
@@ -159,8 +163,10 @@ requirejs(['pouchdb'], function (Pouchdb) {
             retry: true
         }).on('change', function (info) {
             if (info.direction === 'pull') {
-                console.log('Incoming change', info);
+                console.info('Incoming change', info);
                 handleChanges(info.change);
+            } else {
+                console.info('Other change', info);
             }
         });
     };
