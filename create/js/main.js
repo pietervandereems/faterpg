@@ -160,7 +160,7 @@ requirejs(['pouchdb'], function (Pouchdb) {
         }).on('change', function (info) {
             if (info.direction === 'pull') {
                 console.log('Incoming change', info);
-                handleChanges(info);
+                handleChanges(info.change);
             }
         });
     };
