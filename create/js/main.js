@@ -141,7 +141,7 @@ requirejs(['pouchdb'], function (Pouchdb) {
         if (ev.which && (ev.which !== 13 && ev.which !== 10)) {
             return;
         }
-        if (ev.target.tagname === "TEXTAREA" && !ev.ctrlKey) { // in a text area, only react to ctrl-enter
+        if (ev.target.tagName === "TEXTAREA" && !ev.ctrlKey) { // in a text area, only react to ctrl-enter
             return;
         }
         if (ev.target.dataset.repeatable) { // if <enter> was pressed on a repeatable item, clone it and add it to the list
@@ -149,7 +149,7 @@ requirejs(['pouchdb'], function (Pouchdb) {
             if (parentItem.nextElementSibling === null) { // We are the last item in the list, so add a new item like this
                 parentList = findParent(parentItem, ['OL', 'UL']);
                 newItem = parentItem.cloneNode(true);
-                newInput = newItem.querySelector('input');
+                newInput = newItem.querySelector('input') || newItem.querySelector('textarea');
                 newInput.value = '';
                 parentList.appendChild(newItem);
                 newInput.focus();
