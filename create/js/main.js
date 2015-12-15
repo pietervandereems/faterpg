@@ -132,7 +132,10 @@ requirejs(['pouchdb'], function (Pouchdb) {
      */
 
     startReplicator = function () {
-        replicator = Pouchdb.sync(localDb, remoteDb).on('change', function (info) {
+        replicator = Pouchdb.sync(localDb, remoteDb, {
+            live: true,
+            retry: true
+        }).on('change', function (info) {
             console.log('change', info);
         });
     };
