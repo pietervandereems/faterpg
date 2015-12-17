@@ -5,8 +5,9 @@ requirejs(['pouchdb'], function (Pouchdb) {
     var localDb = new Pouchdb('faterpg'),
         remoteDb = new Pouchdb('https://create.faterpg.nl/db/faterpg'),
         showSection,
-        handleChanges,
         findParent,
+        handleChanges,
+        getRevNr,
         setBatteryManagers,
         startReplicator,
         stopReplicator,
@@ -62,6 +63,10 @@ requirejs(['pouchdb'], function (Pouchdb) {
         }
     };
 
+    getRevNr = function (rev) {
+        return parseInt(rev.substring(0, rev.indexOf('-')), 10);
+    };
+
     /*
      * Setting manipulation
      */
@@ -91,9 +96,11 @@ requirejs(['pouchdb'], function (Pouchdb) {
         var process;
 
         process = function (doc) {
-            setting.doc = doc;
-            setting.section.querySelector('input[name="name"]').value = setting.doc.name;
-            setting.section.querySelector('input[name="scale"]').value = setting.doc.scale;
+            if (getRevNr(setting.doc._rev) < getRevNr(doc._rev)) { // only update when changed doc is nieuwe then the one we have got
+                setting.doc = doc;
+                setting.section.querySelector('input[name="name"]').value = setting.doc.name;
+                setting.section.querySelector('input[name="scale"]').value = setting.doc.scale;
+            }
         };
 
         if (changeDoc) {
@@ -178,7 +185,6 @@ requirejs(['pouchdb'], function (Pouchdb) {
     stopReplicator = function () {
         replicator.cancel();
     };
-
 
     /*
      * MAIN
