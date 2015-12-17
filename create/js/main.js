@@ -13,7 +13,8 @@ requirejs(['pouchdb'], function (Pouchdb) {
         stopReplicator,
         setting = {
             doc: {
-                _id: 'setting'
+                _id: 'setting',
+                _rev: '0-ab'
             }
         },
         elements = {},
