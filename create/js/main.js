@@ -94,13 +94,48 @@ requirejs(['pouchdb'], function (Pouchdb) {
     };
 
     setting.get = function (changeDoc) {
-        var process;
+        var process,
+            replaceList;
+
+        replaceList = function (elm, list) {
+            var li;
+            if (!Array.isArray(list)) {
+                return;
+            }
+            if (elm.tagName === 'LI') {
+                li = elm.cloneNode(true);
+            }
+            if (elm.tagName !== 'UL' && elm.tagName !== 'OL') {
+                elm = findParent(elm, ['UL', 'OL']);
+            }
+
+            if (!li) {
+                li = elm.querySelector('li');
+                if (!li) {
+                    li = document.createElement('li');
+                } else {
+                    li = li.clodeNode(true);
+                }
+                if (!li.querySelector('input')) {
+                    li.innerHTML = '<input></input>';
+                }
+            }
+
+            elm.innerHTML = '';
+            list.forEach(function (item) {
+                var newLi = li.cloneNode(true);
+                newLi.querySelector('input').value = item;
+                elm.appendChild(newLi);
+            });
+        };
 
         process = function (doc) {
             if (getRevNr(setting.doc._rev) < getRevNr(doc._rev)) { // only update when changed doc is nieuwe then the one we have got
                 setting.doc = doc;
                 setting.section.querySelector('input[name="name"]').value = setting.doc.name;
                 setting.section.querySelector('input[name="scale"]').value = setting.doc.scale;
+                replaceList(findParent(setting.section.querySelector('input[name="c_issue"]'), ['LI']), setting.doc.currentIssues);
+                replaceList(findParent(setting.section.querySelector('input[name="p_issue"]'), ['LI']), setting.doc.impendingIssues);
             }
         };
 
