@@ -135,7 +135,7 @@ requirejs(['pouchdb'], function (Pouchdb) {
                 setting.section.querySelector('input[name="name"]').value = setting.doc.name;
                 setting.section.querySelector('input[name="scale"]').value = setting.doc.scale;
                 replaceList(findParent(setting.section.querySelector('input[name="c_issue"]'), ['LI']), setting.doc.currentIssues);
-                replaceList(findParent(setting.section.querySelector('input[name="p_issue"]'), ['LI']), setting.doc.impendingIssues);
+                replaceList(findParent(setting.section.querySelector('input[name="i_issue"]'), ['LI']), setting.doc.impendingIssues);
             }
         };
 
@@ -146,6 +146,7 @@ requirejs(['pouchdb'], function (Pouchdb) {
                 process(doc);
             }).catch(function (err) {
                 console.error('Error getting settings doc', {err: err, doc: setting.doc, localDb: localDb});
+                localDb.get('setting').then(function (i) { console.log('2', i); }).catch(function (ee) {console.log('err', ee); });
             });
         }
     };
