@@ -1,4 +1,6 @@
-/*jslint browser:true nomen:true*/
+/*jslint
+    browser, fudge, devel, nomen
+*/
 /*global requirejs*/
 requirejs(['pouchdb'], function (Pouchdb) {
     'use strict';
@@ -146,7 +148,11 @@ requirejs(['pouchdb'], function (Pouchdb) {
                 process(doc);
             }).catch(function (err) {
                 console.error('Error getting settings doc', {err: err, doc: setting.doc, localDb: localDb});
-                localDb.get('setting').then(function (i) { console.log('2', i); }).catch(function (ee) {console.log('err', ee); });
+                localDb.get('setting').then(function (i) {
+                    console.log('2', i);
+                }).catch(function (ee) {
+                    console.log('err', ee);
+                });
             });
         }
     };
