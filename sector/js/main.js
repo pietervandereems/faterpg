@@ -4,8 +4,8 @@
 /*global requirejs*/
 requirejs(['pouchdb'], function (Pouchdb) {
     'use strict';
-    var localDb = new Pouchdb('faterpg'),
-        remoteDb = new Pouchdb('https://create.faterpg.nl/db/faterpg'),
+    var localDb = new Pouchdb('sector'),
+        remoteDb = new Pouchdb('https://sector.faterpg.nl/db/sector'),
         showSection,
         findParent,
         handleChanges,
