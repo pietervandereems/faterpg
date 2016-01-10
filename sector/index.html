@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script data-main="js/main.js" src="js/require.js"></script>
+    <link rel="stylesheet" type="text/css" href="css/fonts.css" />
+    <link rel="stylesheet" type="text/css" href="css/page.css" />
+    
+    <link rel="manifest" href="manifest.json">
+    
+    <link rel="apple-touch-icon" href="icons/Fate_A_60.png">
+    <link rel="apple-touch-icon" sizes="76x76" href="icons/Fate_A_76.png">
+    <link rel="apple-touch-icon" sizes="120x120" href="icons/Fate_A_120.png">
+    <link rel="apple-touch-icon" sizes="152x152" href="icons/Fate_A_152.png">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <title>Generate a Fate game</title>
+</head>
+<body>
+    <header>
+        <h1>Sector</h1>
+        <img src="img/Powered by Fate Final Light BG.svg"></img>
+    </header>
+    <div id="main">
+        <nav>
+            <ul class="buttons">
+                <li data-section="game" data-active="true">Setting</li>
+                <li data-section="PCs">PCs</li>
+                <li>NPCs</li>
+                <li>Scenes</li>
+            </ul>
+        </nav>
+        <section id="game" class="show">
+            <section data-input="setting" class="note">
+                <h2>Game Setting</h2>
+                <ul>
+                    <li><input type="text" name="name" placeholder="Name?"></li>
+                    <li><label>Scale:<input type="text" name="scale" placeholder="Epic/small"></label></li>
+                    <li><label>Current Issues:
+                        <ol>
+                            <li><input type="text" name="c_issue" data-repeatable="true" placeholder="There is a lot of water"></li>
+                        </ol>
+                    </label></li>
+                    <li><label>Impending Isues:
+                        <ol>
+                            <li><input type="text" name="i_issue" data-repeatable="true" placeholder="There will be more water"></li>
+                        </ol>
+                    </label></li>
+                    <li><label>Aspects:
+                        <ol>
+                            <li><textarea name="aspect" data-repeatable="true" placeholder="Water is everywhere"></textarea></li>
+                        </ol>
+                    </label></li>
+                </ul>
+            </section>
+            <section>
+                <h2>The Setting</h2>
+                <p>Decide what the world that surrounds the protagonists is like.</p>
+                <p>You’re probably already familiar with the idea of a setting, but in short,
+                it’s everything that the characters interact with, such as people, organizations and institutions,
+                technology, strange phenomena, and mysteries (crime, intrigue, and cosmic or historical legend).
+                These are the sort of things that characters want to engage with, are forced to engage with,
+                look to for help, or stand in their way.</p>
+
+                <p>If you’re using a setting that already exists, from a movie, novel, or other game book,
+                then many of these ideas are ready for you to use. Of course, you’ll also likely add your own spin
+                on things: new organizations or different mysteries to uncover.</p>
+
+                <h3>Decide how epic or personal your story will be.</h3>
+                <p>The setting might be small or it might be vast, but where your stories take place determines the scale of your game.</p>
+
+                <p>In a small-scale game, characters deal with problems in a city or region, they don’t travel a great deal,
+                and the problems are local. A large-scale game involves dealing with problems that affect a world,
+                a civilization, or even a galaxy if the genre you’re playing in can handle that kind of thing. (Sometimes,
+                a small-scale game will turn into a large-scale one over time, as you’ve probably seen in long-running novel
+                series or television shows.)</p>
+            </section>
+        </section> <!-- Game -->
+        <section id="PCs">
+            <section data-input="PC" class="note">
+                <h2>New PC</h2>
+                <ul>
+                    <li><input type="text" name="name" placeholder="Name?"></li>
+                    <li><label>Aspects:
+                        <ol>
+                            <li><textarea name="aspect" data-repeatable="true" placeholder="I don't like water"></textarea></li>
+                        </ol>
+                    </label></li>
+                </ul>
+                <button type="button">Save</button>
+            </section>
+            <section>
+                <h2>PCs</2>
+            </section>
+        </section>
+    </div>
+</body>
+</html>
+<!-- Copyright 2015 Pieter van der Eems -->
+<!-- This file is part of Zone
+Zone is free software: you can redistribute it and/or modify
+it under the terms of the Affero GNU General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
+Zone is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+Affero GNU General Public License for more details.
+You should have received a copy of the Affero GNU General Public License
+along with Zone. If not, see <http://www.gnu.org/licenses/>.-->

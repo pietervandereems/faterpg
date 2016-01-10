@@ -1,0 +1,28 @@
+{
+  "name": "Create a Fate RPG",
+  "icons": [
+    {
+      "src": "img/Powered by Fate Final Light BG_A.svg",
+      "sizes": "36x36 48x48 72x72 96x96 144x144 168x168 192x192",
+      "type": "image/svg+xml"
+    }
+  ],
+  "splash_screens": [{
+      "src": "img/Powered by Fate Final Light BG_A.svg",
+      "sizes": "320x240 1334x750 1920x1080",
+      "type": "image/svg+xml",
+      "density": 1
+  },{
+      "src": "img/Powered by Fate Final Light BG_A.svg",
+      "sizes": "320x240 1334x750 1920x1080",
+      "type": "image/svg+xml",
+      "density": 2
+  },{
+      "src": "img/Powered by Fate Final Light BG_A.svg",
+      "sizes": "320x240 1334x750 1920x1080",
+      "type": "image/svg+xml",
+      "density": 3
+  } ],
+  "start_url": "index.html",
+  "display": "standalone"
+}
