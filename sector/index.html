@@ -15,7 +15,7 @@
     <link rel="apple-touch-icon" sizes="152x152" href="icons/Fate_A_152.png">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-    <title>Generate a Fate game</title>
+    <title>Sector - a Fate game</title>
 </head>
 <body>
     <header>
@@ -91,9 +91,26 @@
                 <button type="button">Save</button>
             </section>
             <section>
-                <h2>PCs</2>
+                <h2>PCs</h2>
             </section>
-        </section>
+        </section> <!-- PCs -->
+        <section id="NPCs">
+            <section data-input="NPC" class="note">
+                <h2>New PC</h2>
+                <ul>
+                    <li><input type="text" name="name" placeholder="Name?"></li>
+                    <li><label>Aspects:
+                        <ol>
+                            <li><textarea name="aspect" data-repeatable="true" placeholder="I don't like water"></textarea></li>
+                        </ol>
+                    </label></li>
+                </ul>
+                <button type="button">Save</button>
+            </section>
+            <section>
+                <h2>NPCs</h2>
+            </section>
+        </section> <!-- NPCs -->
     </div>
 </body>
 </html>
