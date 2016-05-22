@@ -776,7 +776,7 @@ requirejs(['pouchdb'], function (Pouchdb) {
     });
     // Update local mekton database, and listen to it's replicate events
     startReplicator = function () {
-        replicator = Pouchdb.replicate('https://paddyone.faterpg.nl/db/paddyone', db, {live: true, filter: 'mekton/typedDocs'})
+        replicator = Pouchdb.replicate('https://paddyone.faterpg.nl/db/paddyone', db, {live: true, filter: 'fate/typedDocs'})
             .on('uptodate', function () {
                 updateSelection();
             })
