@@ -41,8 +41,8 @@ requirejs(['pouchdb'], function (Pouchdb) {
         indicateConnection,
         addView,
 //        addInstallButton,
-        startReplicator,
-        startCharReplicator;
+        startReplicator;
+        //startCharReplicator;
 
     // **************************************************************************************************
     // Shortcuts to interface elements
@@ -823,8 +823,7 @@ requirejs(['pouchdb'], function (Pouchdb) {
     // **************************************************************************************************
     // Start replication
     startReplicator();
-    startCharReplicator();
-    // Clear fields
+        // Clear fields
     elements.name.value = '';
 
 
