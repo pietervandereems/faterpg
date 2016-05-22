@@ -629,7 +629,7 @@ requirejs(['pouchdb'], function (Pouchdb) {
                 displayAll();
                 break;
             case 'user':
-                startCharReplicator();
+                // startCharReplicator();
                 break;
             }
         }
@@ -841,9 +841,9 @@ requirejs(['pouchdb'], function (Pouchdb) {
                 startReplicator();
                 setMsg('We have power again, starting replications'); // FIXME: Should be done somewhere better
             }
-            if (!charRepl || charRepl.cancelled) {
-                startCharReplicator();
-            }
+            // if (!charRepl || charRepl.cancelled) {
+            //     startCharReplicator();
+            // }
         };
         lowMode = function () {
             indicateConnection(false);
