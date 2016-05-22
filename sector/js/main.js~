@@ -2,15 +2,9 @@
     browser, devel
 */
 /*property
-    _id, _rev, active, add, addEventListener, appendChild, aspects, battery,
-    cancel, cancelled, catch, change, charging, classList, clodeNode,
-    cloneNode, createElement, ctrlKey, currentIssues, dataset, direction, doc,
-    docs, err, error, focus, forEach, get, getBattery, getElementById, id,
-    impendingIssues, indexOf, info, innerHTML, isArray, key, keyCode, keys,
-    level, live, localDb, log, name, nav, nextElementSibling, on, parentNode,
-    push, put, querySelector, querySelectorAll, remove, removeEventListener,
-    repeatable, retry, rev, save, scale, section, substring, sync, tagName,
-    target, then, toUpperCase, value, which
+    _id, _rev, doc, nav, querySelector, section, classList, remove, id,
+    dataset, active, add, tagName, isArray, forEach, toUpperCase,
+    parentNode, docs, get, substring
 */
 /*global requirejs*/
 requirejs(['pouchdb'], function (Pouchdb) {

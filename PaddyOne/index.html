@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" type="text/css" href="/createpc/css/fonts.css" />
+    <link rel="stylesheet" type="text/css" href="/createpc/css/page.css" />
+    <script data-main="/createpc/js/main.js" src="/createpc/js/require.js"></script>
+    <title>Create Character - PaddyOne -</title>
+</head>
+<body>
+    <toolbar>
+        <ul>
+            <li data-menu_item="edit" title="Edit">&#xe600;</li>
+            <li data-menu_item="share" title="Share">&#xe602;</li>
+            <li data-menu_item="remote" title="Remote">&#xe601;</li>
+        </ul>
+        <ul>
+            <li data-indicator_item="connection" title="No Connection">&#xe603;</li>
+        </ul>
+    </toolbar>
+    <h1>Create PC</h1>
+    <button id="install">Install</button>
+    <div id="consol"></div>
+    <section id="selection">
+        <h2>Select</h2>
+        <form>
+            <label>Character Type: <select id="chartype"><option>Loading..</option></select></label>
+            <label>Name: <input id="name" type="text"></label><button id="save">Save</button>
+            <label>Saved: <select id="saved"><option>Loading...</option></select></label>
+        </form>
+    </section>
+    <section id="result">
+        <h2>Result</h2>
+        <div id="edge"></div>
+        <div id="stats"></div>
+        <div>
+            <table id="skills"></table>
+            <table data-type="Traits"></table>
+            <table id="gear"></table>
+        </div>
+        <div id="lifepath"></div>
+    </section>
+</body>
+</html>
+
+<!-- Copyright 2014 Pieter van der Eems -->
+<!-- This file is part of CreatePC
+CreatePC is free software: you can redistribute it and/or modify
+it under the terms of the Affero GNU General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
+CreatePC is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+Affero GNU General Public License for more details.
+You should have received a copy of the Affero GNU General Public License
+along with CreatePC. If not, see <http://www.gnu.org/licenses/>.-->
