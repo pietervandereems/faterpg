@@ -2,9 +2,44 @@
 /*global requirejs*/
 requirejs(["pouchdb"], function internal (PouchDB) {
     const localDB = new PouchDB('paddyone'),
-        remoteDB = new PouchDB('/db/paddyone');
+        remoteDB = new PouchDB('/db/paddyone'),
+        elements = {
+            selection: document.querySelector('#selection'),
+            generate: document.querySelector('#selection').querySelector('button'),
+            result: document.querySelector('#result'),
+            lifepath: document.querySelector('#lifepath')
+        };
 
+    var generateLifepath;
 
+    generateLifepath = function generateLifepath (start, elm) {
+        localDB.get('lifepath')
+        .lifepathThen(function lifepathThen (doc) {
+            var follow;
+
+            follow = function follow(from) {
+                
+            };
+
+            if (!doc[start]) {
+                console.error('Cannot go to start in lifepath', {start: start, lifepath: doc});
+                return;
+            }
+            follow(start);
+        })
+        .catch(function lifepathErr (err) {
+            console.error('Error getting lifepath', err);
+        });
+    };
+
+/***********************************
+ * Events
+ ***********************************/
+    elements.generate.addEventListener('click', function btnGeneratePush (ev) {
+        ev.preventDefault();
+        generateLifepath('Hair Color', document.getElementById('traits'));
+        generateLifepath('Money', document.getElementById('lifepath'));
+    });
 
 /***********************************
  * Replicator
