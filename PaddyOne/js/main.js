@@ -1,21 +1,21 @@
 /*jslint browser:true, nomen:true*/
-/*eslint no-console: ["error", { allow: ["warn", "error"] }] */
 /*global requirejs*/
-requirejs(['pouchdb'], function (Pouchdb) {
+requirejs(['pouchdb', 'team'], function (Pouchdb, Team) {
     'use strict';
-    var db = new Pouchdb('paddyOne'),
-        charDb = new Pouchdb('localChars'),
-        // remoteCharDb, // Initialized later, since we don't know the remote database yet.
-        statsList = {},
-        lifepathList = {},
-        replicator, // archetype replicator
-        charRepl,   // character replicator
-        initialPhase = true,
-        localCharacter = {},  // Generated character
+    var db = new Pouchdb('paddyone'),
+        talk = new Pouchdb('talk'),
+        remote = new Pouchdb('https://paddyone.faterpg.nl/db/paddyone'),
+        team = new Team(talk, remote),
+        npcMode = false,
+        gameTime = new Date(),
+        replicator,
+        localCharacter = {},
         elements = {},
         elmDefaults = {},
-        character = {}, // selecter character, maybe merge with localCharacter variable.
-//        manifestUrl = 'https://zero.mekton.nl/createpc/manifest.webapp',
+        character = {},
+        //checkRequest,
+//        manifestUrl = 'https://zone.mekton.nl/manifest.webapp',
+        charactaristicsToKeep = ['Lifepath', 'Traits', 'archetype', 'edge', 'gear', 'name', 'skills', 'stats', 'type'],
         updateSelection,
         updateSavedChar,
         generateStats,
@@ -27,22 +27,17 @@ requirejs(['pouchdb'], function (Pouchdb) {
         displaySkills,
         displayGear,
         displayLifepath,
-        displayAll,
         pickSkillFromCategory,
         addSkillToStat,
         setBatteryManagers,
         rnd,
+//        weightedRnd,
         placeName,
-        setMsg,
-        compareInt,
-        uniqueLife,
-        editModeIsSet,
-        // replicateModeIsSet,
-        indicateConnection,
         addView,
-//        addInstallButton,
+        //addInstallButton,
+        setMsg,
+        cleanCharacter,
         startReplicator;
-        //startCharReplicator;
 
     // **************************************************************************************************
     // Shortcuts to interface elements
@@ -54,16 +49,14 @@ requirejs(['pouchdb'], function (Pouchdb) {
     elements.name = document.getElementById('name');
     elements.saved = document.getElementById('saved');
     elements.save = document.getElementById('save');
+    elements.generate = document.getElementById('generate');
+    elements.share = document.getElementById('share');
     elements.gear = document.getElementById('gear');
     elements.install = document.getElementById('install');
     elements.consol = document.getElementById('consol');
-    elements.toolbar = document.querySelector('toolbar');
-    elements.indicator = {
-        connection: elements.toolbar.querySelector('[data-indicator_item="connection"]')
-    };
-    elements.traits = document.querySelector('[data-type="Traits"]');
-    elements.result = document.getElementById('result');
-    elements.username = document.getElementById('username');
+    elements.h1 = document.querySelector('h1');
+    elements.gm = document.getElementById('gm');
+    elements.info = document.getElementById('info');
     elmDefaults.stats = '<p>Stats</p>';
     elmDefaults.skills = '<caption>Skills</caption>';
     elmDefaults.gear = '<caption>Gear</caption>';
@@ -85,7 +78,7 @@ requirejs(['pouchdb'], function (Pouchdb) {
     };
 
     addSkillToStat = function (skill, stat) {
-        var skillValue = character.skills[stat][skill] || 0,
+        var skillValue = character.skills[stat][skill].level || 0,
             statValue = character.stats[stat] || 0;
         return parseInt(skillValue, 10) + parseInt(statValue, 10);
     };
@@ -97,6 +90,28 @@ requirejs(['pouchdb'], function (Pouchdb) {
         }
         return Math.floor(Math.random() * (max - min)) + min;
     };
+
+//    weightedRnd = function (list, weights) { // examples list = ["skill1", "skill2"], weights = [1,4]
+//        var rand,
+//            totalWeight,
+//            nr,
+//            i,
+//            l,
+//            sum = 0;
+//        rand = function (max) {
+//            return (Math.random() * max).toFixed(2);
+//        };
+//        totalWeight = weights.reduce(function (prev, cur) {
+//            return prev + cur;
+//        });
+//        nr = rand(totalWeight);
+//        for (i = 0, l = weights.length; i <= l; i += 1) {
+//            sum += weights[i];
+//            if (nr <= sum) {
+//                return list[i];
+//            }
+//        }
+//    };
 
     placeName = function (text) {
         if (elements.name.value) {
@@ -112,42 +127,12 @@ requirejs(['pouchdb'], function (Pouchdb) {
         }, 5000);
     };
 
-    compareInt = function (a, b) {
-        return (parseInt(a, 10) - parseInt(b, 10));
-    };
-
-    uniqueLife = function (arr) {
-        var u = [],
-            arrItems = [];
-        if (!Array.isArray(arr)) {
-            return arr;
-        }
-
-        arr.forEach(function (item) {
-            if (arrItems.indexOf(item.text) === -1) {
-                u.push(item);
-                arrItems.push(item.text);
+    cleanCharacter = function () {
+        Object.keys(character).forEach(function (charactaristic) {
+            if (charactaristicsToKeep.indexOf(charactaristic) === -1) {
+                delete character[charactaristic];
             }
         });
-        return u;
-    };
-
-    editModeIsSet = function () {
-        return document.querySelector('[data-menu_item="edit"]').classList.contains('selected');
-    };
-
-    // replicateModeIsSet = function () {
-    //     return document.querySelector('[data-menu_item="user"]').classList.contains('selected');
-    // };
-
-    indicateConnection = function (connected) {
-        if (connected) {
-            elements.indicator.connection.classList.add('selected');
-            elements.indicator.connection.setAttribute('title', "Connection");
-        } else {
-            elements.indicator.connection.classList.remove('selected');
-            elements.indicator.connection.setAttribute('title', "No connection");
-        }
     };
 
     // **************************************************************************************************
@@ -155,13 +140,26 @@ requirejs(['pouchdb'], function (Pouchdb) {
     // **************************************************************************************************
     generateLifepath = function (start, elmTable, type) {
         var doc,
-            follow;
+            follow,
+            addPer;
+        addPer = function (from) {
+            return function (item) {
+                character[type][from].text += ', ' + item[rnd(item.length)];
+            };
+        };
         follow = function (from) {
+            var i;
             if (!Array.isArray(doc[from])) {
                 return;
             }
-            lifepathList[from] = uniqueLife(doc[from]);
             character[type][from] = doc[from][rnd(doc[from].length)];
+            if (character[type][from].times && character[type][from].per) {
+                character[type][from].text += '<br/>';
+                for (i = 0; i < character[type][from].times; i += 1) {
+                    character[type][from].per.forEach(addPer(from));
+                    character[type][from].text += '<br/>';
+                }
+            }
             if (character[type][from].next) {
                 follow(character[type][from].next);
             }
@@ -169,7 +167,6 @@ requirejs(['pouchdb'], function (Pouchdb) {
         if (!type) {
             type = start;
         }
-        lifepathList = {};
         db.query('local/typesWithName', {reduce: false, key: 'lifepath', include_docs: true}, function (err, list) {
             if (err || !Array.isArray(list.rows) || list.rows.length === 0) {
                 return;
@@ -183,23 +180,42 @@ requirejs(['pouchdb'], function (Pouchdb) {
             displayLifepath(elmTable, type);
         });
     };
-
     generateSkills = function (doc) {
         var addToSkillList,
+            findSkill,
             findStatOfSkill;
         if (!Array.isArray(doc.starting_skills)) {
             return;
         }
+        findSkill = function (stat, skill) {
+            var i;
+            for (i = stat.length - 1; i >= 0; i -= 1) {
+                if (stat[i].name === skill) {
+                    return (stat[i]);
+                }
+            }
+            return false;
+        };
         // Add the skill to the internal skilllist.
         addToSkillList = function (skill, value, stat, unique) {
+            var foundSkill;
             stat = stat.toLowerCase();
             value = parseInt(value, 10);
-            character.skills[stat] = character.skills[stat] || {};
-            if (unique && character.skills[stat][skill]) { // Skill must be unique
+            character.skills[stat] = character.skills[stat] || [];
+
+            foundSkill = findSkill(character.skills[stat], skill);
+            if (unique && foundSkill) { // Skill must be unique
                 return false;
             }
-            character.skills[stat][skill] = character.skills[stat][skill] || 0;
-            character.skills[stat][skill] += value;
+            if (foundSkill) {
+                foundSkill.level += value;
+            } else {
+                character.skills[stat].push({
+                    name: skill,
+                    level: value,
+                    ip: 0
+                });
+            }
             return true;
         };
         // Determine the stat the skill belongs to
@@ -250,7 +266,6 @@ requirejs(['pouchdb'], function (Pouchdb) {
             displaySkills();
         });
     };
-
     // Get the archetype edge
     generateEdge = function (doc) {
         var edges;
@@ -260,36 +275,21 @@ requirejs(['pouchdb'], function (Pouchdb) {
             character.edge[edge] = doc.edge[edge];
         });
     };
-
     // Randomly determine character stats based on archetype.
     generateStats = function (doc) {
         var stats;
         character.stats = {};
-        statsList = {};
         if (Array.isArray(doc.role_stats) && doc.role_stats.length > 0) {
             stats = Object.keys(doc.role_stats[0]);
-            doc.role_stats.forEach(function (rstat) { // Create a list of all available values for later edit use by user
-                stats.forEach(function (stat) {
-                    if (stat === 'nr') {
-                        return;
-                    }
-                    statsList[stat] = statsList[stat] || [];
-                    if (statsList[stat].indexOf(rstat[stat]) === -1) {
-                        statsList[stat].push(rstat[stat]);
-                    }
-                });
-            });
             stats.forEach(function (stat) {
                 if (stat === 'nr') {
                     return;
                 }
-                statsList[stat].sort(compareInt); // We want to sort it for later use;
                 stat = stat.toLowerCase();
                 character.stats[stat] = parseInt(doc.role_stats[Math.floor(Math.random() * 10)][stat], 10);
             });
         }
     };
-
     // Get the gear
     generateGear = function (doc) {
         var pickStuff;
@@ -415,29 +415,22 @@ requirejs(['pouchdb'], function (Pouchdb) {
 
         elmStatsInner =  elmDefaults.stats + '<ul>';
         stats.forEach(function (stat) {
-            elmStatsInner += '<li data-original_value="' + character.stats[stat] + '" data-type="' + stat.capitalize() + '">';
-            if (editModeIsSet()) {
-                elmStatsInner += '<select>';
-                statsList[stat.toLowerCase()].forEach(function (value) {
-                    elmStatsInner += '<option value="' + value  + '"';
-                    if (value === character.stats[stat]) {
-                        elmStatsInner += ' selected="true" ';
-                    }
-                    elmStatsInner += '>' + value + '</option>';
-                });
-                elmStatsInner += '</select>';
-            } else {
-                elmStatsInner += character.stats[stat];
-            }
-            elmStatsInner += '</li>';
+            elmStatsInner += '<li data-value="' + character.stats[stat] + '">' + stat.capitalize() + '</li>';
         });
         elements.stats.innerHTML = elmStatsInner + '</ul>';
-    };
 
+        // GM
+        elements.gm.innerHTML = '';
+        if (npcMode && character.gm) {
+            Object.keys(character.gm).forEach(function (item) {
+                elements.gm.innerHTML += '<p><strong>' + item + '</strong>: ' + character.gm[item] + '</p>';
+            });
+        }
+    };
     // Skilllist needs to be retrieved asynchronously so a seperate function to display those.
     displaySkills = function () {
         var stats;
-        stats = Object.keys(character.skills);
+        stats = Object.keys(character.skills).sort();
         elements.skills.innerHTML = elmDefaults.skills;
         stats.forEach(function (stat) {
             var row = elements.skills.insertRow(),
@@ -446,7 +439,7 @@ requirejs(['pouchdb'], function (Pouchdb) {
             rowInner += '<td>' + stat.capitalize() + '</td><td><ul>';
             skills = Object.keys(character.skills[stat]);
             skills.forEach(function (skill) {
-                rowInner += '<li data-value="' + addSkillToStat(skill, stat) + '">' + skill + ": " + character.skills[stat][skill] + '</li>';
+                rowInner += '<li data-value="' + addSkillToStat(skill, stat) + '">' + character.skills[stat][skill].name + ": " + character.skills[stat][skill].level + '</li>';
             });
             row.innerHTML = rowInner + '</ul></td>';
         });
@@ -460,25 +453,13 @@ requirejs(['pouchdb'], function (Pouchdb) {
             return;
         }
         periods = Object.keys(character[type]);
+        periods.reverse();
+        table += '<caption>' + type.capitalize() + '</caption>';
         periods.forEach(function (period) {
-            var textList;
-            if (editModeIsSet()) {
-                textList = '<select>';
-                lifepathList[period].forEach(function (item) {
-                    textList += '<option';
-                    if (item.text === character[type][period].text) {
-                        textList += ' selected="true" ';
-                    }
-                    textList += '>' + placeName(item.text) + '</option>';
-                });
-                textList += '</select>';
-            } else {
-                textList = placeName(character[type][period].text);
-            }
-            table += '<tr><td>' + period + '</td><td>' + textList + '</td></tr>';
+            table += '<tr><td>' + period + '</td><td>' + placeName(character[type][period].text) + '</td></tr>';
         });
         if (element.nodeName !== 'TABLE') {
-            table = '<table data-type="' + type  + '">' + table + '</table>';
+            table = '<table>' + table + '</table>';
         }
         element.innerHTML = table;
     };
@@ -499,18 +480,8 @@ requirejs(['pouchdb'], function (Pouchdb) {
             });
             row.innerHTML = rowInner + '</ul></td>';
         });
-    };
-    // Meta function to call all display functions
-    displayAll = function () {
-        if (Object.keys(character).length > 0) { // no need to display when nothing is available to display
-            display();
-            displaySkills();
-            displayGear();
-            displayLifepath(elements.traits, 'Traits');
-            displayLifepath(document.getElementById('lifepath'), 'Romantic life');
-        }
-    };
 
+    };
     // **************************************************************************************************
     // Event Listeners, for user interaction
     // **************************************************************************************************
@@ -524,8 +495,8 @@ requirejs(['pouchdb'], function (Pouchdb) {
             generateEdge(doc);
             generateStats(doc);
             generateSkills(doc);
-            generateLifepath('Hair Color', elements.traits, 'Traits');
-            generateLifepath('Romantic life', document.getElementById('lifepath'));
+            generateLifepath('Hair Color', document.getElementById('traits'), 'Traits');
+            generateLifepath('Money', document.getElementById('lifepath'), 'Lifepath');
             generateGear(doc);
             display();
         });
@@ -537,7 +508,12 @@ requirejs(['pouchdb'], function (Pouchdb) {
         if (localCharacter.name && localCharacter.id && localCharacter.name === elements.name.value) {
             if (window.confirm('Overwrite existing character? (name is the same)')) {
                 character.archetype = elements.charType.value;
-                charDb.put(character, character._id, character._rev, function (err) {
+                if (elements.info.value) {
+                    character.gm = {
+                        info: elements.info.value
+                    };
+                }
+                db.put(character, character._id, character._rev, function (err) {
                     if (err) {
                         console.error('Error overwriting character', err);
                         return;
@@ -546,18 +522,25 @@ requirejs(['pouchdb'], function (Pouchdb) {
                 });
             }
         } else {
+            cleanCharacter();
             character.name = elements.name.value;
             character.archetype = elements.charType.value;
-            delete character._id;
-            delete character._rev;
-            charDb.post(character, function (err, result) {
+            character.type = npcMode ? 'npc' : 'pc';
+            if (elements.info.value) {
+                character.gm = {
+                    info: elements.info.value
+                };
+            }
+            db.post(character, function (err, result) {
                 if (err) {
                     console.error('Error saving new character', err);
+                    return;
                 }
-                if (result.ok) {
+                if (result && result.ok) {
                     localCharacter.id = result.id;
-                    character._id = result.id;
-                    character._rev = result.rev;
+                    localCharacter.rev = result.rev;
+                    localCharacter.name = character.name;
+                    localCharacter.archetype = character.archetype;
                 }
             });
         }
@@ -568,7 +551,7 @@ requirejs(['pouchdb'], function (Pouchdb) {
         if (event.target.value === '') {
             return;
         }
-        charDb.get(event.target.value, function (err, doc) {
+        db.get(event.target.value, function (err, doc) {
             var opts,
                 index;
             if (err) {
@@ -593,31 +576,52 @@ requirejs(['pouchdb'], function (Pouchdb) {
             elements.name.value = doc.name;
             character = doc;
             // display character
-            displayAll();
+            display();
+            displaySkills();
+            displayGear();
+            displayLifepath(document.getElementById('traits'), 'Traits');
+            displayLifepath(document.getElementById('lifepath'), 'Lifepath');
         });
     });
-    // A toolbar button has been clicked
-    elements.toolbar.addEventListener('click', function (event) {
-        if (event.target.dataset.menu_item) {
-            event.target.classList.toggle('selected');
-            switch (event.target.dataset.menu_item) {
-            case 'edit':
-                displayAll();
-                break;
-            case 'user':
-                // startCharReplicator();
-                break;
-            }
-        }
+
+    // npc switch
+    elements.h1.addEventListener('dblclick', function () {
+        var elems = document.querySelectorAll('.notavailable');
+        npcMode = true;
+        Object.keys(elems).forEach(function (key) {
+            elems[key].classList.remove('notavailable');
+        });
+        elements.h1.innerHTML = 'Create PC - PaddyOne';
+        updateSavedChar();
     });
 
-    // A change has been made in the results
-    elements.result.addEventListener('change', function (event) {
-        var tableType,
-            thisType;
-        thisType = event.target.parentElement.previousElementSibling.innerHTML;
-        tableType = event.target.parentElement.parentElement.parentElement.parentElement.dataset.type;
-        character[tableType][thisType].text = event.target.value;
+    // Generate a name
+    elements.generate.addEventListener('click', function (ev) {
+        var xhr = new XMLHttpRequest();
+
+        ev.preventDefault();
+
+        xhr.addEventListener('load', function () {
+            var elm,
+                plains;
+            elm = document.createElement('div');
+            elm.innerHTML = this.responseText;
+            plains = elm.querySelectorAll('.plain');
+            elements.name.value = plains[0].innerHTML + ' ' + plains[1].innerHTML;
+        });
+        xhr.open('GET', '/names/');
+        xhr.send();
+    });
+
+    // Share a name with the team talk
+    elements.share.addEventListener('click', function (ev) {
+        var ocTime = new Date();
+        ev.preventDefault();
+        gameTime.setHours(ocTime.getHours());
+        gameTime.setMinutes(ocTime.getMinutes());
+        gameTime.setSeconds(ocTime.getSeconds());
+        gameTime.setMilliseconds(ocTime.getMilliseconds());
+        team.save('gm', 'npc: ' + elements.name.value, gameTime.toISOString());
     });
 
     // **************************************************************************************************
@@ -628,11 +632,7 @@ requirejs(['pouchdb'], function (Pouchdb) {
         db.query('local/typesWithName', {reduce: false, key: 'archetype'}, function (err, list) {
             var options = '<option>Archetype...</option>';
             if (err) {
-                if (err.status && err.message && err.status === 404 && err.message === 'missing') {
-                    addView('local', updateSavedChar);
-                } else {
-                    console.error('Error getting view typesWithName', err);
-                }
+                console.error('Error retrieving typesWithName', err);
                 return;
             }
             elements.charType.innerHTML = '';
@@ -651,13 +651,17 @@ requirejs(['pouchdb'], function (Pouchdb) {
 
     // Fill saved characters selector
     updateSavedChar = function () {
-        charDb.query('local/names', function (err, list) {
+        var view = 'local/names';
+        if (npcMode) {
+            view = 'local/namesPcNpc';
+        }
+        db.query(view, function (err, list) {
             var options = '';
             if (err) {
-                if (err.status && err.message && err.status === 404 && err.message === 'missing') {
+                if (err.status && err.message && err.status === 404) {
                     addView('local', updateSavedChar);
                 } else {
-                    console.error('Error getting view local/names', err);
+                    console.error('Error getting view ', view, err);
                 }
                 return;
             }
@@ -678,7 +682,7 @@ requirejs(['pouchdb'], function (Pouchdb) {
     // **************************************************************************************************
     // Firefox install app
     // **************************************************************************************************
-   /*
+/*
     if (window.navigator.mozApps) { // only when mozApps is available
 
         // Enable install button and listen to it's click events.
@@ -704,8 +708,7 @@ requirejs(['pouchdb'], function (Pouchdb) {
             }
         };
     }
-    */
-
+*/
 
     // **************************************************************************************************
     // Database
@@ -714,14 +717,11 @@ requirejs(['pouchdb'], function (Pouchdb) {
     addView = function (view, cb) {
         switch (view) {
         case 'local':
-            charDb.put({
+            db.put({
                 '_id': '_design/local',
                 'views': {
                     'names': {
                         'map': 'function(doc) { if (doc.name) {\n    emit(doc.name, 1);\n    }\n}'
-                    },
-                    'typesWithName': {
-                        'map': 'function(doc) {    if (doc._deleted) {\n        return true;\n}\n  if (doc.type) {\n      emit(doc.type, {name: doc.name});\n  }\n}'
                     }
                 }
             }, function (err) {
@@ -734,79 +734,73 @@ requirejs(['pouchdb'], function (Pouchdb) {
             break;
         }
     };
-    // Get the last sequence nr and start listening for new changes.
-    charDb.info(function (err, info) {
-        if (err) {
-            console.error('Error getting localChars database info', err);
-            info = {update_seq: 0};
-        }
-        updateSavedChar();
-        // Listen to changes to local characters database
-        // note: info seems to not give us the last sequence nr.
-        charDb.changes({continuous: true, since: info.update_seq})
-            .on('change', function () {
-                if (!initialPhase) {    // we are only interested in changes after the database has been 'read' completely. Possibly a pouchdb problem?
-                    updateSavedChar();
-                }
-            })
-            .on('error', function (err) {
-                console.error('Error with charDb change', err);
-            })
-            .on('uptodate', function () {
-                initialPhase = false;
-                updateSavedChar();
-            });
-    });
-    // Update local mekton database, and listen to it's replicate events
+
     startReplicator = function () {
-        replicator = Pouchdb.replicate('https://paddyone.faterpg.nl/db/paddyone', db, {live: true, filter: 'fate/typedDocs'})
-            .on('paused', function () {
+        // characters
+        replicator = db.replicate.from(remote, {
+            live: true,
+            filter: 'mekton/typedDocs',
+            retry: true
+        })
+            .on('error', function (err) {
+                console.error('Error replicating from PaddyOne', err);
+            })
+            .on('paused', function (err) {
+                if (err) {
+                    console.error('Error replicating from PaddyOne (paused)', err);
+                }
+                updateSavedChar();
                 updateSelection();
             })
-            .on('error', function (err) {
-                console.error('error', err);
-                if (err.status && err.status === 405) { // We could be in offline mode, render what we have
-                    updateSelection();
-                }
+            .on('change', function () {
+                updateSelection();
+                updateSavedChar();
             })
             .on('complete', function () { // will also be called on a replicator.cancel()
                 updateSelection();
             });
+        remote.replicate.to(db, {
+            live: true,
+            doc_ids: ['campaign'],
+            retry: true,
+            include_docs: true
+        })
+            .on('error', function (err) {
+                console.error('Error replicatingn campaign from PaddyOne', err);
+            })
+            .on('paused', function (err) {
+                if (err) {
+                    console.error('Error replicating campaing from PaddyOne (paused)', err);
+                }
+                db.get('campaign')
+                    .then(function (doc) {
+                        gameTime = new Date(doc.today);
+                    })
+                    .catch(function (err) {
+                        console.error('Error getting local campaign doc', err);
+                    });
+            })
+            .on('change', function (changed) {
+                if (Array.isArray(changed.docs)) {
+                    changed.docs.forEach(function (doc) {
+                        if (doc._id === 'campaign') {
+                            gameTime = new Date(doc.today);
+                        }
+                    });
+                }
+            });
+        db.replicate.to(remote, {live: true})
+            .on('error', function (err) {
+                console.error('Error replicating to PaddyOne', err);
+            });
     };
-    // Start LocalCharacter replicator to server if possible (username needs to be set) and listen to it's replicator events.
-    // startCharReplicator = function () {
-    //     indicateConnection(true);
-    //     if (elements.username && elements.username.value && replicateModeIsSet()) {
-    //         remoteCharDb = new Pouchdb('https://zero.mekton.nl/db/mekton_' + elements.username.value, {skipSetup: true}, function (err) {
-    //             if (err) {
-    //                 console.log('remoteCharDb err', err);
-    //             }
-    //         });
-    //         remoteCharDb.info(function (err, result) {
-    //             if (err && err.message === 'no_db_file') {
-    //                 console.log('Remote Database does not exist');
-    //                 return;
-    //             }
-    //             console.log('remoteCharDb.info', err, result);
-    //             charRepl = Pouchdb.replicate(charDb, remoteCharDb, {live: true})
-    //                 .on('uptodate', function () {
-    //                     console.log('user characters up to date');
-    //                 })
-    //                 .on('error', function (err) {
-    //                     console.log('Error user character sync', err);
-    //                 })
-    //                 .on('complete', function () {
-    //                     console.log('user character sync complete');
-    //                 });
-    //         });
-    //     }
-    // };
+
     // **************************************************************************************************
     // Main
     // **************************************************************************************************
     // Start replication
     startReplicator();
-        // Clear fields
+    // Clear fields
     elements.name.value = '';
 
 
@@ -822,22 +816,15 @@ requirejs(['pouchdb'], function (Pouchdb) {
             battery.addEventListener('levelchange', levelListener);
             if (!replicator || replicator.cancelled) {
                 startReplicator();
-                setMsg('We have power again, starting replications'); // FIXME: Should be done somewhere better
+                setMsg('We have power again, starting replication archetypes');
             }
-            // if (!charRepl || charRepl.cancelled) {
-            //     startCharReplicator();
-            // }
         };
         lowMode = function () {
-            indicateConnection(false);
             if (!replicator.cancelled) {
                 replicator.cancel();
             }
-            if (!charRepl.cancelled) {
-                charRepl.cancel();
-            }
             battery.removeEventListener('levelchange', levelListener);
-            setMsg('Low battery, halting replications');
+            setMsg('Low battery, halting replication archetypes');
         };
         levelListener = function () {
             if (!battery.charging && battery.level < 0.18) { // battery at 17% or less
@@ -872,14 +859,14 @@ requirejs(['pouchdb'], function (Pouchdb) {
 });
 
 //Copyright 2014 Pieter van der Eems
-//This file is part of CreatePC
-//CreatePC is free software: you can redistribute it and/or modify
+//This file is part of CreateNPC
+//CreateNPC is free software: you can redistribute it and/or modify
 //it under the terms of the Affero GNU General Public License as published by
 //the Free Software Foundation, either version 3 of the License, or
 //(at your option) any later version.
-//CreatePC is distributed in the hope that it will be useful,
+//CreateNPC is distributed in the hope that it will be useful,
 //but WITHOUT ANY WARRANTY; without even the implied warranty of
 //MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
 //Affero GNU General Public License for more details.
 //You should have received a copy of the Affero GNU General Public License
-//along with CreatePC. If not, see <http://www.gnu.org/licenses/>.
+//along with CreateNPC. If not, see <http://www.gnu.org/licenses/>.
