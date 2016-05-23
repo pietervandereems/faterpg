@@ -717,19 +717,30 @@ requirejs(['pouchdb', 'team'], function (Pouchdb, Team) {
     addView = function (view, cb) {
         switch (view) {
         case 'local':
-            db.put({
-                '_id': '_design/local',
-                'views': {
-                    'names': {
-                        'map': 'function(doc) { if (doc.name) {\n    emit(doc.name, 1);\n    }\n}'
+            db.get('_design/local').then(function (doc) {
+                db.put({
+                    '_id': '_design/local',
+                    '_rev': doc._rev,
+                    'views': {
+                        "typesWithName": {
+                            "map": "function(doc) {    if (doc._deleted) {\n        return true;\n}\n  if (doc.type) {\n      emit(doc.type, {name: doc.name});\n  }\n}"
+                        },
+                        "names": {
+                            "map": "function(doc) { \n   if (doc.name &&\n\tdoc.type &&\n\t(doc.type === 'pc')) {\n    emit(doc.name, doc.type);\n    }\n}"
+                        },
+                        "namesPcNpc": {
+                            "map": "function(doc) { \n   if (doc.name &&\n\tdoc.type &&\n\t(doc.type === 'pc' || doc.type === 'npc')) {\n    emit(doc.name, doc.type);\n    }\n}"
+                        }
                     }
-                }
-            }, function (err) {
-                if (err) {
-                    console.error('Error saving view', err);
-                    return;
-                }
-                cb();
+                }, function (err) {
+                    if (err) {
+                        console.error('Error saving view', err);
+                        return;
+                    }
+                    return cb();
+                });
+            }).catch(function (err) {
+                console.error('Error caught in getting local view', err);
             });
             break;
         }
@@ -739,7 +750,7 @@ requirejs(['pouchdb', 'team'], function (Pouchdb, Team) {
         // characters
         replicator = db.replicate.from(remote, {
             live: true,
-            filter: 'mekton/typedDocs',
+            filter: 'fate/typedDocs',
             retry: true
         })
             .on('error', function (err) {
