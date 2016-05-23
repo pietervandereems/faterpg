@@ -98,30 +98,6 @@ requirejs(['pouchdb'], function (Pouchdb) {
         return Math.floor(Math.random() * (max - min)) + min;
     };
 
-/*
-    weightedRnd = function (list, weights) { // examples list = ["skill1", "skill2"], weights = [1,4]
-        var rand,
-            totalWeight,
-            nr,
-            i,
-            l,
-            sum = 0;
-        rand = function (max) {
-            return (Math.random() * max).toFixed(2);
-        };
-        totalWeight = weights.reduce(function (prev, cur) {
-            return prev + cur;
-        });
-        nr = rand(totalWeight);
-        for (i = 0, l = weights.length; i <= l; i += 1) {
-            sum += weights[i];
-            if (nr <= sum) {
-                return list[i];
-            }
-        }
-    };
-*/
-
     placeName = function (text) {
         if (elements.name.value) {
             return text.replace('{character}', elements.name.value);
@@ -652,7 +628,11 @@ requirejs(['pouchdb'], function (Pouchdb) {
         db.query('local/typesWithName', {reduce: false, key: 'archetype'}, function (err, list) {
             var options = '<option>Archetype...</option>';
             if (err) {
-                console.error('Error retrieving typesWithName', err);
+                if (err.status && err.message && err.status === 404 && err.message === 'missing') {
+                    addView('local', updateSavedChar);
+                } else {
+                    console.error('Error getting view typesWithName', err);
+                }
                 return;
             }
             elements.charType.innerHTML = '';
@@ -739,6 +719,9 @@ requirejs(['pouchdb'], function (Pouchdb) {
                 'views': {
                     'names': {
                         'map': 'function(doc) { if (doc.name) {\n    emit(doc.name, 1);\n    }\n}'
+                    },
+                    'typesWithName': {
+                        'map': 'function(doc) {    if (doc._deleted) {\n        return true;\n}\n  if (doc.type) {\n      emit(doc.type, {name: doc.name});\n  }\n}'
                     }
                 }
             }, function (err) {
