@@ -1,0 +1,246 @@
+* + * {
+    margin-left: 5px;
+}
+
+body {
+    background-image: url("/img/bg20.gif");
+    background-color: black;
+    color: silver;
+}
+
+input {
+    border-style: dotted;
+    border-left-style: solid;
+    border-right-style: solid;
+    border-width: 2px;
+    font-size: initial;
+    background-color: transparent;
+    color: silver;
+}
+
+li[data-menu_item] {
+    cursor: pointer;
+}
+
+.selected {
+    color: yellow;
+    text-shadow: 0px 0px 7px yellow;
+    font-weight: bold;
+}
+
+/* lists */
+ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+
+/* install button */
+#install {
+    display: none;
+}
+
+/* lists in tables */
+td li[data-value]::after {
+    content: " (" attr(data-value) ")";
+    font-size: smaller;
+}
+
+td li {
+    margin-left: 0px;
+}
+
+/* Tables */
+caption {
+    color: #E37700;
+}
+
+table[data-type]::before {
+    display: table-caption;
+    content: attr(data-type);
+    color: #E37700;
+    text-align: center;
+}
+
+td, th {
+    background-color: #161616;
+    border-radius: 5px;
+    padding: 1em;
+}
+
+tr:first-child > td , tr:first-child > th {
+    border-top: 1px solid #565656;
+}
+
+td:first-child, th:first-child {
+    border-left: 1px solid #565656;
+}
+
+td:last-child, th:last-child {
+    border-right: 1px solid #565656;
+}
+
+tr:last-child > td {
+    border-bottom: 1px solid #565656;
+}
+
+/* Results */
+
+#result select {
+    appearance: none;
+    -moz-appearance: none;
+    -webkit-appearance: none;
+    border: 0;
+    margin: inherit;
+    background: inherit;
+    background-color: #161616;
+    color: inherit;
+    font: inherit;
+}
+
+/* Stats */
+#stats {
+    margin-top: 1em;
+    margin-bottom: 1em;
+}
+
+#stats ul {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    flex-direction: row;
+    align-items: flex-start;
+    align-content: flex-start;
+    width: 100%;
+
+    /* old browser support */
+/*    display                 : -webkit-flex;*/ /* don't know why but for this to work in IOS Safari, this needs to be commented out */
+    -webkit-flex-direction  : row;
+    -webkit-flex-wrap       : wrap;
+    -webkit-justify-content : center-around;
+    -webkit-align-items     : flex-start;
+    -webkit-align-content   : flex-start;
+    display                 : -ms-flexbox;
+    -ms-flex-direction      : row;
+    -ms-flex-wrap           : wrap;
+    -ms-justify-content     : center;
+    -ms-align-items         : flex-start;
+    -ms-align-content       : flex-start;
+}
+
+#stats li {
+    display: inline-table;
+    padding: 1em;
+    border: 1px solid #565656;
+    background: #161616;
+    border-radius: 5px;
+    text-align: center;
+    min-width: 3em;
+    color: orange;
+    margin-left: 1px;
+}
+
+#stats li[data-type]::before {
+    content:  ' ' attr(data-type);
+    display: table-row;
+    color: silver;
+}
+
+#stats p {
+    color: #E37700;
+    width: 100%;
+    text-align: center;
+    margin: 0;
+}
+
+/* Flexbox */
+div {
+    display         : flex;
+    flex-direction  : row;
+    flex-wrap       : wrap;
+    justify-content : space-around;
+    align-items     : flex-start;
+    align-content   : flex-start;
+
+    /* old browser support */
+    display                 : -webkit-flex;
+    -webkit-flex-direction  : row;
+    -webkit-flex-wrap       : wrap;
+    -webkit-justify-content : space-around;
+    -webkit-align-items     : flex-start;
+    -webkit-align-content   : flex-start;
+    display                 : -ms-flexbox;
+    -ms-flex-direction      : row;
+    -ms-flex-wrap           : wrap;
+    -ms-justify-content     : space-around;
+    -ms-align-items         : flex-start;
+    -ms-align-content       : flex-start;
+}
+
+#stats {
+    justify-content : center;
+
+    /* old browser support */
+    -webkit-justify-content : center;
+    -ms-justify-content     : center;
+}
+
+/* Toolbar */
+
+toolbar {
+    display         : flex;
+    flex-direction  : row;
+    flex-wrap       : nowrap;
+    justify-content : space-between;
+    align-items     : stretch;
+    align-content   : flex-start;
+
+    /* old browser support */
+    display                 : -webkit-flex;
+    -webkit-flex-direction  : row;
+    -webkit-flex-wrap       : nowrap;
+    -webkit-justify-content : space-between;
+    -webkit-align-items     : stretch;
+    -webkit-align-content   : flex-start;
+    display                 : -ms-flexbox;
+    -ms-flex-direction      : row;
+    -ms-flex-wrap           : nowrap;
+    -ms-justify-content     : space-between;
+    -ms-align-items         : stretch;
+    -ms-align-content       : flex-start;
+}
+
+toolbar ul {
+    font-family: 'icomoon';
+    speak: none;
+    font-style: normal;
+    font-weight: normal;
+    font-variant: normal;
+    text-transform: none;
+    line-height: 1;
+    font-size: 25px;
+
+    /* Better Font Rendering =========== */
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+toolbar li {
+    display: inline;
+    cursor: default;
+}
+
+/*
+Copyright 2016 Pieter van der Eems
+This file is part of CreatePC
+CreatePC is free software: you can redistribute it and/or modify
+it under the terms of the Affero GNU General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
+CreatePC is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+Affero GNU General Public License for more details.
+You should have received a copy of the Affero GNU General Public License
+along with CreatePC. If not, see <http://www.gnu.org/licenses/>.
+*/
