@@ -15,14 +15,17 @@ requirejs(["pouchdb"], function internal (PouchDB) {
         retry: true
     })
     .on('paused', function replPaused (err) {
+        console.info('paused');
         if (err) {
             console.error('Replicator paused on error', err);
         }
     })
     .on('change', function replChange (info) {
     // handle change
+        console.info('change', info);
     })
     .on('active', function replActive () {
+        console.info('active', info);
     // replicate resumed (e.g. new changes replicating, user went back online)
     })
     .on('denied', function replDenied (err) {
@@ -30,6 +33,7 @@ requirejs(["pouchdb"], function internal (PouchDB) {
         console.error('Replication denied', err);
     })
     .on('complete', function replComplete (info) {
+        console.info('complete', info);
     // handle complete
     })
     .on('error', function replError (err) {
