@@ -19,7 +19,8 @@ requirejs(["pouchdb"], function internal (PouchDB) {
         .then(function displayLifepathGetThen (doc) {
             var row = document.createElement('tr'),
                 rowText = '',
-                inner = elm.querySelector('table');
+                inner = elm.querySelector('table'),
+                newTable = Boolean(inner);
 
             rowText = '';
             if (!doc[prop]) {
@@ -39,11 +40,14 @@ requirejs(["pouchdb"], function internal (PouchDB) {
                        '>' + propItem.text + '</option>';
             });
             rowText += '</select></td>';
-            if (!inner) {
+            if (newTable) {
                 inner = document.createElement('table');
             }
             row.innerHTML = rowText;
             inner.appendChild(row);
+            if (newTable) {
+                elm.appendChild(inner);
+            }
         })
         .catch(function displayLifepathGetCatch (err) {
             console.error('Error getting lifepath doc to display', err);
