@@ -20,7 +20,7 @@ requirejs(["pouchdb"], function internal (PouchDB) {
             var row = document.createElement('tr'),
                 rowText = '',
                 inner = elm.querySelector('table'),
-                newTable = Boolean(inner);
+                newTable = !(inner);
 
             rowText = '';
             if (!doc[prop]) {
