@@ -7,28 +7,44 @@ requirejs(["pouchdb"], function internal (PouchDB) {
             selection: document.querySelector('#selection'),
             generate: document.querySelector('#selection').querySelector('button'),
             result: document.querySelector('#result'),
-            lifepath: document.querySelector('#lifepath')
+            lifepath: document.querySelector('#lifepath'),
+            traits: document.querySelector('#traits')
         };
 
-    var generateLifepath;
+    var displayLifepath;
 
-    generateLifepath = function generateLifepath (start, elm) {
+    displayLifepath = function displayLifepath (elm, prop) {
+
         localDB.get('lifepath')
-        .lifepathThen(function lifepathThen (doc) {
-            var follow;
-
-            follow = function follow(from) {
-                
-            };
-
-            if (!doc[start]) {
-                console.error('Cannot go to start in lifepath', {start: start, lifepath: doc});
+        .then(function displayLifepathGetThen (doc) {
+            var row = document.createElement('tr'),
+                inner = elm.querySelector('table');
+            
+            row.innerHTML = '';
+            if (!doc[prop]) {
+                console.error('Cannot display lifepath property', {prop: prop, lifepath: doc});
                 return;
             }
-            follow(start);
+            if (!Array.isArray(doc[prop])) {
+                console.error('Lifepath property is not an Array', {prop: doc[prop]});
+                return;
+            }
+            row.innerHTML += '<td>' + prop + '</td>';
+            row.innerHTML += '<td><select>';
+            doc[prop].forEach(function displayPropEach (propItem, index) {
+                row.innerHTML += '<option data-times="' + (propItem.times || '0') +
+                       '" data-item="' + index + '@' + prop + '"' +
+                       'data-next="' + propItem.next + '"' +
+                       '>' + propItem.text + '</option>';
+            });
+            row.innerHTML += '</select></td>';
+            if (!inner) {
+                inner = document.createElement('table');
+            }
+            inner.appendChild(row);
         })
-        .catch(function lifepathErr (err) {
-            console.error('Error getting lifepath', err);
+        .catch(function displayLifepathGetCatch (err) {
+            console.error('Error getting lifepath doc to display', err);
         });
     };
 
@@ -37,8 +53,12 @@ requirejs(["pouchdb"], function internal (PouchDB) {
  ***********************************/
     elements.generate.addEventListener('click', function btnGeneratePush (ev) {
         ev.preventDefault();
-        generateLifepath('Hair Color', document.getElementById('traits'));
-        generateLifepath('Money', document.getElementById('lifepath'));
+        displayLifepath(elements.traits, 'Hair Color');
+        displayLifepath(elements.lifepath, 'Money');
+    });
+    
+    elements.result.addEventListener('click', function traitClick (ev) {
+        console.log(ev.target);
     });
 
 /***********************************
@@ -60,7 +80,7 @@ requirejs(["pouchdb"], function internal (PouchDB) {
         console.info('change', info);
     })
     .on('active', function replActive () {
-        console.info('active', info);
+        console.info('active');
     // replicate resumed (e.g. new changes replicating, user went back online)
     })
     .on('denied', function replDenied (err) {
