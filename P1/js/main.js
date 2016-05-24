@@ -2,7 +2,7 @@
 /*global requirejs*/
 requirejs(["pouchdb"], function internal (PouchDB) {
     const localDB = new PouchDB('paddyone'),
-        remoteDB = new PouchDB('/db/paddyone'),
+        remoteDB = new PouchDB(window.location.protocol + '//' + window.location.hostname + '/db/paddyone'),
         elements = {
             selection: document.querySelector('#selection'),
             generate: document.querySelector('#selection').querySelector('button'),
@@ -19,7 +19,7 @@ requirejs(["pouchdb"], function internal (PouchDB) {
         .then(function displayLifepathGetThen (doc) {
             var row = document.createElement('tr'),
                 inner = elm.querySelector('table');
-            
+
             row.innerHTML = '';
             if (!doc[prop]) {
                 console.error('Cannot display lifepath property', {prop: prop, lifepath: doc});
@@ -56,7 +56,7 @@ requirejs(["pouchdb"], function internal (PouchDB) {
         displayLifepath(elements.traits, 'Hair Color');
         displayLifepath(elements.lifepath, 'Money');
     });
-    
+
     elements.result.addEventListener('click', function traitClick (ev) {
         console.log(ev.target);
     });
