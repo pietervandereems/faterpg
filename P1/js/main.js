@@ -18,9 +18,10 @@ requirejs(["pouchdb"], function internal (PouchDB) {
         localDB.get('lifepath')
         .then(function displayLifepathGetThen (doc) {
             var row = document.createElement('tr'),
+                rowText = '',
                 inner = elm.querySelector('table');
 
-            row.innerHTML = '';
+            rowText = '';
             if (!doc[prop]) {
                 console.error('Cannot display lifepath property', {prop: prop, lifepath: doc});
                 return;
@@ -29,18 +30,19 @@ requirejs(["pouchdb"], function internal (PouchDB) {
                 console.error('Lifepath property is not an Array', {prop: doc[prop]});
                 return;
             }
-            row.innerHTML += '<td>' + prop + '</td>';
-            row.innerHTML += '<td><select>';
+            rowText += '<td>' + prop + '</td>';
+            rowText += '<td><select>';
             doc[prop].forEach(function displayPropEach (propItem, index) {
-                row.innerHTML += '<option data-times="' + (propItem.times || '0') +
+                rowText += '<option data-times="' + (propItem.times || '0') +
                        '" data-item="' + index + '@' + prop + '"' +
                        'data-next="' + propItem.next + '"' +
                        '>' + propItem.text + '</option>';
             });
-            row.innerHTML += '</select></td>';
+            rowText += '</select></td>';
             if (!inner) {
                 inner = document.createElement('table');
             }
+            row.innerHTML = rowText;
             inner.appendChild(row);
         })
         .catch(function displayLifepathGetCatch (err) {
