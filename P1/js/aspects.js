@@ -148,6 +148,7 @@ requirejs(["pouchdb"], function internal (PouchDB) {
             handleChanges(info.change);
         } else {
             console.warn('Other change', info);
+            handleChanges(info.change);
         }
     });
 
