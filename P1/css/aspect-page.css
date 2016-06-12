@@ -1,0 +1,143 @@
+@charset "utf-8";
+/* Some default settings */
+html {
+    font-family: "source-code-pro", monospace;
+    font-size: 1em;
+}
+
+body {
+    background-color: black;
+    background-image: url("../img/bg20.gif");
+    color: silver;
+    margin: 0;
+}
+
+header {
+    background          : rgb(27,117,188);
+    background          : linear-gradient(to bottom, rgb(27,117,188) 0,rgb(21,89,143) 100%);
+    color               : white;
+    text-transform      : uppercase;
+
+    display             : flex;
+    flex-direction      : row;
+    flex-wrap           : nowrap;
+    justify-content     : space-between;
+    align-items         : center;
+
+    /* old IOS browser support */
+    display                 : -webkit-flex;
+    -webkit-flex-direction  : row;
+    -webkit-flex-wrap       : nowrap;
+    -webkit-justify-content : space-between;
+}
+
+header h1 {
+    margin: 0;
+    font-size: 1em;
+    margin-left: 0.5em;
+    text-shadow: 1px 0 0 rgba(0,0,0,.9);
+}
+header img {
+    height: 1em;
+}
+
+#main {
+    display             : flex;
+    flex-direction      : row;
+    flex-wrap           : nowrap;
+    justify-content     : flex-start;
+    align-items         : stretch;
+
+    /* old IOS browser support */
+    display                 : -webkit-flex;
+    -webkit-flex-direction  : row;
+    -webkit-flex-wrap       : nowrap;
+    -webkit-justify-content : flex-start;
+    -webkit-align-items     : stretch;
+}
+
+#main>section:not(:first-child) {
+    display: none;
+    background-color: white;
+    color: black;
+    box-shadow: 5px 2px 19px 0 rgba(0,0,0,.7);
+    border-radius: 0.5em;
+    margin: 1em;
+}
+
+#main section {
+    padding: 5px;
+}
+
+#main section.show {
+    display: initial;
+}
+
+#main section h2 {
+    border-bottom: 1px solid red;
+}
+
+.note {
+    float: right;
+    background: rgb(255,248,185);
+    background: linear-gradient(to bottom, rgba(255,248,185,1) 0,rgba(255,243,134,1) 100%);
+    font-family: "pacifico", "Georgia", "serif";
+    color: rgb(27, 117, 188);
+    box-shadow: 0 0 5px 0 rgba(0,0,0,.3);
+    margin: 1em;
+}
+.note h2 {
+    color: black;
+    font-family: initial;
+    font-size: 1em;
+    text-transform: uppercase;
+}
+
+.note input,textarea {
+    font-family: inherit;
+    font-size: 1em;
+    width: 17em;
+    border: none;
+    background: inherit;
+    color: black;
+    margin-left: 0.5em;
+}
+.note ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+
+.note ol {
+    padding-left: 2em;
+}
+
+@media screen and (max-width: 601px) { /* lower down because later has higher prio in css */
+    #main {
+        flex-direction : column;
+        -webkit-flex-direction: column;
+    }
+
+    .buttons li {
+        display: inline;
+    }
+
+    .buttons {
+        padding-top: 1em;
+    }
+}
+
+/*
+Copyright 2016 Pieter van der Eems
+This file is part of P1
+P1 is free software: you can redistribute it and/or modify
+it under the terms of the Affero GNU General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
+P1 is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+Affero GNU General Public License for more details.
+You should have received a copy of the Affero GNU General Public License
+along with CreateNPC. If not, see <http://www.gnu.org/licenses/>.
+*/
