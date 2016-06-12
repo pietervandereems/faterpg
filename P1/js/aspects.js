@@ -59,6 +59,7 @@ requirejs(["pouchdb"], function internal (PouchDB) {
         newSection = document.createElement("section");
         newSection.setAttribute('data-type', 'show');
         newSection.setAttribute('data-id', note._id);
+        newSection.setAttribute('data-rev', note._rev);
         newSection.classList.add('note');
         html = '<h2>' + note.name + '</h2>';
         html += '<ul>';
@@ -79,13 +80,23 @@ requirejs(["pouchdb"], function internal (PouchDB) {
         }
     };
 
-    const deleteNote = function deleteNote (note) {
+    const deleteNote = function deleteNote (noteDoc) {
         var toBeDeleted;
 
-        toBeDeleted = elements.main.querySelector('section[data-id="' + note._id + '"]');
+        toBeDeleted = elements.main.querySelector('section[data-id="' + noteDoc._id + '"]');
         if (toBeDeleted) {
             toBeDeleted.parentNode.removeChild(toBeDeleted);
         }
+    };
+
+    const deleteNoteDoc = function deleteNoteDoc (note) {
+        localDB.remove(note.dataset.id, note.dataset.rev)
+            .then(function (result) {
+                deleteNote(result);
+            })
+            .catch(function (err) {
+                console.error('Error deleting doc', {note: note, err: err});
+            });
     };
 
 /*
@@ -96,6 +107,9 @@ requirejs(["pouchdb"], function internal (PouchDB) {
         if (ev.target.tagName === 'BUTTON') {
             if (ev.target.dataset.action && ev.target.dataset.action === 'push') {
                 saveNote(ev.target.parentNode);
+            }
+            if (ev.target.dataset.action && ev.target.dataset.action === 'delete') {
+                deleteNoteDoc(ev.target.parentNode);
             }
         }
     });

@@ -86,6 +86,9 @@ header img {
     padding: 0;
 }
 
+button[data-action="delete"] {
+    color: red;
+}
 
 @media screen and (max-width: 601px) { /* lower down because later has higher prio in css */
     #main {
