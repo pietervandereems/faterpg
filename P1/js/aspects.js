@@ -10,7 +10,8 @@ requirejs(["pouchdb"], function internal (PouchDB) {
         },
         replicator,
         // Functions
-        handleChanges;
+        handleChanges,
+        saveNote;
 
 
 /*
@@ -35,11 +36,22 @@ requirejs(["pouchdb"], function internal (PouchDB) {
         return findParent(node.parentNode, tags);
     };
 
-
+    const semiRandomId = function  semiRandomId () {
+        return Math.floor((1 + Math.random()) * 0x1000000000).toString(16).substring(1);
+    };
 
 /*
  * React to user interaction
  */
+
+    elements.main.addEventListener('click', function mainClick (ev) {
+        if (ev.target.tagName === 'BUTTON') {
+            if (ev.target.dataset.action && ev.target.dataset.action === 'push') {
+                saveNote(ev.target);
+            }
+        }
+    });
+
     elements.main.addEventListener('keypress', function keypress (ev) {
         var parentList,
             parentItem,
@@ -74,6 +86,16 @@ requirejs(["pouchdb"], function internal (PouchDB) {
 /*
  * Database
  */
+
+    saveNote = function saveNote (element) {
+        var doc = {};
+        doc._id = 'aspect-' + semiRandomId();
+        doc.name = element.querySelector('h2').value;
+        console.log('doc', doc);
+        console.log('element', element);
+        window.elm = element;
+    };
+
     handleChanges = function handleChanges (change) {
         console.info('Change to be handled', change);
     };
