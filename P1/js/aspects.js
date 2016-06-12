@@ -37,7 +37,9 @@ requirejs(["pouchdb"], function internal (PouchDB) {
     };
 
     const semiRandomId = function  semiRandomId () {
-        return Math.floor((1 + Math.random()) * 0x1000000000).toString(16).substring(1);
+        return Math.floor((1 + Math.random()) * 0x1000000000)
+            .toString(16)
+            .substring(1);
     };
 
 /*
@@ -47,7 +49,7 @@ requirejs(["pouchdb"], function internal (PouchDB) {
     elements.main.addEventListener('click', function mainClick (ev) {
         if (ev.target.tagName === 'BUTTON') {
             if (ev.target.dataset.action && ev.target.dataset.action === 'push') {
-                saveNote(ev.target);
+                saveNote(ev.target.parentElement);
             }
         }
     });
