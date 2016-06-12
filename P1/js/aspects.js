@@ -154,7 +154,7 @@ requirejs(["pouchdb"], function internal (PouchDB) {
     handleChanges = function handleChanges (change) {
         console.info('Change to be handled', change);
         change.docs.forEach(function doChanges (doc) {
-            if (doc._delete) {
+            if (doc._deleted) {
                 deleteNote(doc);
             } else {
                 addNote(doc);
