@@ -51,7 +51,7 @@ requirejs(["pouchdb"], function internal (PouchDB) {
             newSection;
 
         newSection = document.createElement("section");
-        newSection.setAttribute('data-type="show"');
+        newSection.setAttribute('data-type', 'show');
         newSection.classList.add('note');
         newSection.innerHTML = '<h2>' + note.name + '</h2>';
         newSection.innerHTML += '<ul>';
