@@ -23,12 +23,6 @@ header {
     flex-wrap           : nowrap;
     justify-content     : space-between;
     align-items         : center;
-
-    /* old IOS browser support */
-    display                 : -webkit-flex;
-    -webkit-flex-direction  : row;
-    -webkit-flex-wrap       : nowrap;
-    -webkit-justify-content : space-between;
 }
 
 header h1 {
@@ -44,16 +38,9 @@ header img {
 #main {
     display             : flex;
     flex-direction      : row;
-    flex-wrap           : nowrap;
+    flex-wrap           : wrap;
     justify-content     : flex-start;
     align-items         : stretch;
-
-    /* old IOS browser support */
-    display                 : -webkit-flex;
-    -webkit-flex-direction  : row;
-    -webkit-flex-wrap       : nowrap;
-    -webkit-justify-content : flex-start;
-    -webkit-align-items     : stretch;
 }
 
 #main section {
