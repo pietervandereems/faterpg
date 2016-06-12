@@ -48,17 +48,19 @@ requirejs(["pouchdb"], function internal (PouchDB) {
     const addNote = function addNote (note) {
         var noteList = elements.main.querySelectorAll('section[data-type="show"]'),
             index,
-            newSection;
+            newSection,
+            html;
 
         newSection = document.createElement("section");
         newSection.setAttribute('data-type', 'show');
         newSection.classList.add('note');
-        newSection.innerHTML = '<h2>' + note.name + '</h2>';
-        newSection.innerHTML += '<ul>';
+        html = '<h2>' + note.name + '</h2>';
+        html += '<ul>';
         note.aspects.forEach(function addAspectsToSection (aspect) {
-            newSection.innerHTML += '<li>' + aspect + '</li>';
+            html += '<li>' + aspect + '</li>';
         });
-        newSection.innerHTML += '</ul>';
+        html += '</ul>';
+        newSection.innerHTML = html;
         if (noteList.length === 0) {
             elements.main.appendChild(newSection);
         } else {
