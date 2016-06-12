@@ -49,7 +49,7 @@ requirejs(["pouchdb"], function internal (PouchDB) {
     elements.main.addEventListener('click', function mainClick (ev) {
         if (ev.target.tagName === 'BUTTON') {
             if (ev.target.dataset.action && ev.target.dataset.action === 'push') {
-                saveNote(ev.target.parentElement);
+                saveNote(ev.target.parentNode);
             }
         }
     });
@@ -92,10 +92,8 @@ requirejs(["pouchdb"], function internal (PouchDB) {
     saveNote = function saveNote (element) {
         var doc = {};
         doc._id = 'aspect-' + semiRandomId();
-        doc.name = element.querySelector('h2').value;
-        console.log('doc', doc);
-        console.log('element', element);
-        window.elm = element;
+        doc.name = element.querySelector('h2').querySelector('input').value;
+        console.log(element.querySelector('ul').querySelectorAll('input'));
     };
 
     handleChanges = function handleChanges (change) {
