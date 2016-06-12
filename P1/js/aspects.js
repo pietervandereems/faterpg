@@ -43,6 +43,30 @@ requirejs(["pouchdb"], function internal (PouchDB) {
     };
 
 /*
+ * UI Functions
+ */
+    const addNote = function addNote (note) {
+        var noteList = elements.main.querySelectorAll('section[data-type="show"]'),
+            index,
+            newSection;
+        for (index = 0; index < noteList.length; index += 1) {
+            if (note.name > noteList[index].name) {
+                break;
+            }
+        }
+        newSection = document.createElement("section");
+        newSection.setAttribute('data-type="show"');
+        newSection.classList.add('note');
+        newSection.innerHTML = '<h2>' + note.name + '</h2>';
+        newSection.innerHTML += '<ul>';
+        note.aspects.forEach(function addAspectsToSection (aspect) {
+            newSection.innerHTML += '<li>' + aspect + '</li>';
+        });
+        newSection.innerHTML += '</ul>';
+        elements.main.insertBefore(newSection, noteList[index]);
+    };
+
+/*
  * React to user interaction
  */
 
@@ -112,6 +136,7 @@ requirejs(["pouchdb"], function internal (PouchDB) {
 
     handleChanges = function handleChanges (change) {
         console.info('Change to be handled', change);
+        change.docs.forEach(addNote);
     };
 
     replicator = PouchDB.sync(localDB, remoteDB, {
