@@ -53,6 +53,7 @@ requirejs(["pouchdb"], function internal (PouchDB) {
 
         newSection = document.createElement("section");
         newSection.setAttribute('data-type', 'show');
+        newSection.setAttribute('data-id', note._id);
         newSection.classList.add('note');
         html = '<h2>' + note.name + '</h2>';
         html += '<ul>';
@@ -70,6 +71,15 @@ requirejs(["pouchdb"], function internal (PouchDB) {
                 }
             }
             elements.main.insertBefore(newSection, noteList[index]);
+        }
+    };
+
+    const deleteNote = function deleteNote (note) {
+        var toBeDeleted;
+
+        toBeDeleted = elements.main.querySelector('section[data-id="' + note._id + '"]');
+        if (toBeDeleted) {
+            toBeDeleted.parentNode.removeChild(toBeDeleted);
         }
     };
 
@@ -143,7 +153,13 @@ requirejs(["pouchdb"], function internal (PouchDB) {
 
     handleChanges = function handleChanges (change) {
         console.info('Change to be handled', change);
-        change.docs.forEach(addNote);
+        change.docs.forEach(function doChanges (doc) {
+            if (doc._delete) {
+                deleteNote(doc);
+            } else {
+                addNote(doc);
+            }
+        });
     };
 
     replicator = PouchDB.sync(localDB, remoteDB, {
