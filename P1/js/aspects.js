@@ -50,7 +50,7 @@ requirejs(["pouchdb"], function internal (PouchDB) {
         var noteList = elements.main.querySelectorAll('section[data-type="show"]'),
             index,
             newSection,
-            html;
+            html = '';
 
         if (note._deleted) {
             return;
@@ -61,7 +61,8 @@ requirejs(["pouchdb"], function internal (PouchDB) {
         newSection.setAttribute('data-id', note._id);
         newSection.setAttribute('data-rev', note._rev);
         newSection.classList.add('note');
-        html = '<h2>' + note.name + '</h2>';
+        html += '<button type="button" data-action="delete">×</button>';
+        html += '<h2>' + note.name + '</h2>';
         html += '<ul>';
         note.aspects.forEach(function addAspectsToSection (aspect) {
             html += '<li>' + aspect + '</li>';
