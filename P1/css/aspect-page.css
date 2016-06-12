@@ -63,6 +63,7 @@ header img {
     color: black;
     box-shadow: 0 0 5px 0 rgba(0,0,0,.3);
     margin: 1em;
+    min-width: 5em;
 }
 .note h2 {
     color: black;
@@ -88,6 +89,14 @@ header img {
 
 button[data-action="delete"] {
     color: red;
+    float: right;
+    margin: 0;
+    padding: 0;
+    border: none;
+    font-family: "pacifico";
+    font-size: 16px;
+    line-height: 16px;
+    background: none;
 }
 
 @media screen and (max-width: 601px) { /* lower down because later has higher prio in css */
