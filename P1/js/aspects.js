@@ -102,7 +102,12 @@ requirejs(["pouchdb"], function internal (PouchDB) {
                 }
                 doc.aspects.push(inputElm.value);
             });
-        console.log('doc', doc);
+        localDB.put(doc)
+            .then()
+            .catch(function putCatch (err) {
+                console.error('Error saving new note', err);
+            });
+
     };
 
     handleChanges = function handleChanges (change) {
