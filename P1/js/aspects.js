@@ -90,10 +90,21 @@ requirejs(["pouchdb"], function internal (PouchDB) {
  */
 
     saveNote = function saveNote (element) {
-        var doc = {};
+        var doc = {
+            aspects: []
+        };
         doc._id = 'aspect-' + semiRandomId();
         doc.name = element.querySelector('h2').querySelector('input').value;
-        console.log(element.querySelector('ul').querySelectorAll('input'));
+        element
+            .querySelector('ul')
+            .querySelectorAll('input')
+            .forEach(function walkInputs (inputElm) {
+                if (inputElm.value === '') {
+                    return;
+                }
+                doc.aspects.push(inputElm.value);
+            });
+        console.log('doc', doc);
     };
 
     handleChanges = function handleChanges (change) {
