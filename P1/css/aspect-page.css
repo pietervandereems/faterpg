@@ -90,7 +90,7 @@ header img {
     color: black;
     font-family: initial;
     font-size: 1em;
-    text-transform: uppercase;
+    font-weight: initial;
 }
 
 .note input,textarea {
@@ -108,9 +108,6 @@ header img {
     padding: 0;
 }
 
-.note ol {
-    padding-left: 2em;
-}
 
 @media screen and (max-width: 601px) { /* lower down because later has higher prio in css */
     #main {
