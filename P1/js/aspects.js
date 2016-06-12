@@ -1,4 +1,5 @@
 /* eslint no-console: ["error", { allow: ["info", "warn", "error"]}] */
+/* eslint one-var: off */
 /* global requirejs */
 requirejs(["pouchdb"], function internal (PouchDB) {
     const localDB = new PouchDB('paddyone'),
@@ -50,6 +51,10 @@ requirejs(["pouchdb"], function internal (PouchDB) {
             index,
             newSection,
             html;
+
+        if (note._deleted) {
+            return;
+        }
 
         newSection = document.createElement("section");
         newSection.setAttribute('data-type', 'show');
@@ -175,4 +180,20 @@ requirejs(["pouchdb"], function internal (PouchDB) {
         }
     });
 
+    (function getInitial () {
+        localDB.allDocs({
+            include_docs: true,
+            startkey: 'aspect-',
+            endkey: 'aspect-\uffff'
+        })
+        .then(function (docs) {
+            docs.rows.forEach(function (row) {
+                addNote(row.doc);
+            });
+        })
+        .catch(function (err) {
+            console.error('Error with allDocs', err);
+        });
+
+    }());
 });
