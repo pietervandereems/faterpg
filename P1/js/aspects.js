@@ -1,13 +1,17 @@
-/* eslint no-console: ["error", { allow: ["warn", "error"]}] */
+/* eslint no-console: ["error", { allow: ["info", "warn", "error"]}] */
 /* global requirejs */
 requirejs(["pouchdb"], function internal (PouchDB) {
     const localDB = new PouchDB('paddyone'),
         remoteDB = new PouchDB(window.location.protocol + '//' + window.location.hostname + '/db/paddyone');
 
     var elements = {
-        main: document.querySelector('#main'),
-        newNote: document.querySelector('section[data-input="new"]')
-    };
+            main: document.querySelector('#main'),
+            newNote: document.querySelector('section[data-input="new"]')
+        },
+        replicator,
+        // Functions
+        handleChanges;
+
 
 /*
  * Helper functions
@@ -64,6 +68,25 @@ requirejs(["pouchdb"], function internal (PouchDB) {
                 parentList.appendChild(newItem);
                 newInput.focus();
             }
+        }
+    });
+
+/*
+ * Database
+ */
+    handleChanges = function handleChanges (change) {
+        console.info('Change to be handled', change);
+    };
+
+    replicator = PouchDB.sync(localDB, remoteDB, {
+        live: true,
+        retry: true
+    }).on('change', function syncChange (info) {
+        if (info.direction === 'pull') {
+            console.info('Incoming change', info);
+            handleChanges(info.change);
+        } else {
+            console.warn('Other change', info);
         }
     });
 
