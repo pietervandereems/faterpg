@@ -95,9 +95,7 @@ requirejs(["pouchdb"], function internal (PouchDB) {
         };
         doc._id = 'aspect-' + semiRandomId();
         doc.name = element.querySelector('h2').querySelector('input').value;
-        element
-            .querySelector('ul')
-            .querySelectorAll('input')
+        Array.from(element.querySelector('ul').querySelectorAll('input'))
             .forEach(function walkInputs (inputElm) {
                 if (inputElm.value === '') {
                     return;
