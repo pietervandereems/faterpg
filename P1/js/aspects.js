@@ -49,11 +49,7 @@ requirejs(["pouchdb"], function internal (PouchDB) {
         var noteList = elements.main.querySelectorAll('section[data-type="show"]'),
             index,
             newSection;
-        for (index = 0; index < noteList.length; index += 1) {
-            if (note.name > noteList[index].name) {
-                break;
-            }
-        }
+
         newSection = document.createElement("section");
         newSection.setAttribute('data-type="show"');
         newSection.classList.add('note');
@@ -63,7 +59,16 @@ requirejs(["pouchdb"], function internal (PouchDB) {
             newSection.innerHTML += '<li>' + aspect + '</li>';
         });
         newSection.innerHTML += '</ul>';
-        elements.main.insertBefore(newSection, noteList[index]);
+        if (noteList.length === 0) {
+            elements.main.appendChild(newSection);
+        } else {
+            for (index = 0; index < noteList.length; index += 1) {
+                if (note.name > noteList[index].name) {
+                    break;
+                }
+            }
+            elements.main.insertBefore(newSection, noteList[index]);
+        }
     };
 
 /*
