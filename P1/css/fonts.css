@@ -27,3 +27,10 @@
     font-weight: normal;
     font-style: normal;
 }
+@font-face {
+    font-family: 'Comfortaa';
+    src:url('../fonts/Comfortaa-Regular-subset.woff') format('woff'),
+        url('../fonts/Comfortaa-Regular-subset.ttf') format('truetype'); /* For android 4.x internal browser */
+    font-weight: normal;
+    font-style: normal;
+}
