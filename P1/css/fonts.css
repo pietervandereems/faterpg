@@ -14,6 +14,13 @@
     font-style: normal;
 }
 @font-face {
+    font-family: 'Lobster Two';
+    src:url('../fonts/LobsterTwo-Regular-subset.woff') format('woff'),
+        url('../fonts/LobsterTwo-Regular-subset.ttf') format('truetype'); /* For android 4.x internal browser */
+    font-weight: normal;
+    font-style: normal;
+}
+@font-face {
     font-family: 'source-code-pro';
     src:url('../fonts/SourceCodePro-Regular-subset.woff') format('woff'),
         url('../fonts/SourceCodePro-Regular-subset.ttf') format('truetype'); /* For android 4.x internal browser */
