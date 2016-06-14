@@ -1,7 +1,7 @@
 @charset "utf-8";
 /* Some default settings */
 html {
-    /*font-family: "source-code-pro", monospace;*/
+    font-family: "source-code-pro", monospace;
     font-size: 1em;
 }
 
