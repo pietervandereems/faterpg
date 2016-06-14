@@ -23,7 +23,7 @@
       "type": "image/svg+xml",
       "density": 3
   } ],
-  "start_url": "aspects.html",
+  "start_url": "/aspects.html",
   "display": "standalone",
   "orientation": "portrait"
 }
