@@ -3,7 +3,8 @@
 /* global requirejs */
 requirejs(["pouchdb"], function internal (PouchDB) {
     const localDB = new PouchDB('paddyone'),
-        remoteDB = new PouchDB(window.location.protocol + '//' + window.location.hostname + '/db/paddyone');
+        remoteDB = new PouchDB(window.location.protocol + '//' + window.location.hostname + '/db/paddyone'),
+        gmMode = (document.querySelector('title').textContent.substr(-2) === 'GM');
 
     var elements = {
             main: document.querySelector('#main'),
@@ -55,14 +56,22 @@ requirejs(["pouchdb"], function internal (PouchDB) {
         if (note._deleted) {
             return;
         }
+        if (!gmMode && !note.pcVisible) {
+            return;
+        }
 
         newSection = document.createElement("section");
         newSection.setAttribute('data-type', 'show');
         newSection.setAttribute('data-id', note._id);
         newSection.setAttribute('data-rev', note._rev);
         newSection.classList.add('note');
-        html += '<button type="button" data-action="delete">×</button>';
-        html += '<h2>' + note.name + '</h2>';
+        html += '<h2>';
+        if (gmMode) {
+            const pcAction = (note.pcVisible)?'pcDisable':'pcEnable';
+            html += '<button type="button" data-action="' + pcAction + '">u</button>';
+            html += '<button type="button" data-action="delete">x</button>';
+        }
+        html += note.name + '</h2>';
         html += '<ul>';
         note.aspects.forEach(function addAspectsToSection (aspect) {
             html += '<li>' + aspect + '</li>';
@@ -106,11 +115,22 @@ requirejs(["pouchdb"], function internal (PouchDB) {
 
     elements.main.addEventListener('click', function mainClick (ev) {
         if (ev.target.tagName === 'BUTTON') {
-            if (ev.target.dataset.action && ev.target.dataset.action === 'push') {
-                saveNote(ev.target.parentNode);
+            if (!ev.target.dataset.action) {
+                return;
             }
-            if (ev.target.dataset.action && ev.target.dataset.action === 'delete') {
-                deleteNoteDoc(ev.target.parentNode);
+            switch(ev.target.dataset.action) {
+            case 'push':
+                saveNote(ev.target.parentNode);
+                break;
+            case 'delete':
+                deleteNoteDoc(ev.target.parentNode.parentNode);
+                break;
+            case 'pcEnable':
+                togglePCVisible(ev.target.parentNode.parentNode, true);
+                break;
+            case 'pcDisable':
+                togglePCVisible(ev.target.parentNode.parentNode, false);
+                break;
             }
         }
     });
@@ -169,6 +189,23 @@ requirejs(["pouchdb"], function internal (PouchDB) {
                 console.error('Error saving new note', err);
             });
 
+    };
+    
+    const togglePCVisible = function (note, visible) {
+        localDB.get(note.dataset.id)
+            .then(function (doc) {
+                doc.pcVisible = visible;
+                localDB.put(doc)
+                .then(function () {
+                    note.dataset.action = (visible)?'pcEnable':'pcDisable';
+                })
+                .catch(function (err) {
+                    console.error('Error saving note for togglePCVisible', {doc: doc, note: note, visible: visible, err: err});
+                });
+            })
+            .catch(function (err) {
+                console.error('Error getting note for togglePCVisible', {note: note, visible: visible, err: err});
+            });
     };
 
     handleChanges = function handleChanges (change) {
