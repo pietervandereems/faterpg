@@ -87,16 +87,27 @@ header img {
     padding: 0;
 }
 
-button[data-action="delete"] {
-    color: red;
+.note h2 button {
+    font-family: 'icomoon';
     float: right;
     margin: 0;
     padding: 0;
-    border: none;
-    font-family: "pacifico";
     font-size: 16px;
     line-height: 16px;
+    border: none;
     background: none;
+}
+
+button[data-action="delete"] {
+    color: red;
+}
+
+button[data-action="pcDisable"] {
+    color: greenyellow;
+}
+
+button[data-action*="pc"] {
+    margin-left: 1em !important;
 }
 
 @media screen and (max-width: 601px) { /* lower down because later has higher prio in css */
