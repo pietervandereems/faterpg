@@ -1,46 +1,42 @@
 body {
     display: grid;
     grid-template-rows: 1fr 2fr 2fr 1fr;
+    grid-template-columns: repeat(10, 1fr);
+    grid-template-areas:
+        "naw naw naw naw naw naw naw logo logo logo"
+        "aspects aspects aspects aspects skills skills skills skills skills skills"
+        "extras extras extras extras stunts stunts stunts stunts stunts stunts"
+        "stress stress stress consequences consequences consequences consequences consequences consequences consequences";
+}
+
+* + * {
+    margin: 0;
 }
 
 .naw {
+    grid-area: naw;
     display: grid;
-    grid-template-columns: 6fr 1fr 4fr;
+    grid-template-columns: 6fr 1fr;
     grid-template-rows: 1fr 1fr 3fr;
     grid-template-areas:
-        "header header logo"
-        "name refresh logo"
-        "description refresh logo";
+        "naw_header naw_header naw_header"
+        "name refresh"
+        "description refresh";
 }
 
-.stats {
-    display: grid;
-    grid-template-columns: 2fr 3fr;
-    grid-template-rows: 1fr 1 fr 1fr 1fr 1fr 1fr;
-}
-.specials {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    grid-template-rows: 1fr 6fr;
-}
-
-.state {
-    display: grid;
-    grid-template-columns: 1fr 2fr;
-    grid-template-rows: 1fr 1fr 1fr 1fr;
+.logo {
+    grid-area: logo;
 }
 
 .header {
     color: white;
     background-color: black;
+    margin-left: 1em;
+    text-transform: uppercase;
 }
 
-.header {
-    grid-area: header;
-}
-
-.logo {
-    grid-area: logo;
+.naw .header {
+    grid-area: naw_header;
 }
 
 .name {
