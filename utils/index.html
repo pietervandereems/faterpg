@@ -1,14 +1,15 @@
 <!DOCTYPE html>
 <html>
+
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=0.5 maximum-scale=1.0">
     <script data-main="js/main.js" src="js/require.js"></script>
     <link rel="stylesheet" type="text/css" href="css/fonts.css" />
     <link rel="stylesheet" type="text/css" href="css/page.css" />
-    
+
     <link rel="manifest" href="manifest.json">
-    
+
     <link rel="apple-touch-icon" href="icons/apple/name_tag_60.png">
     <link rel="apple-touch-icon" sizes="76x76" href="icons/apple/name_tag_76.png">
     <link rel="apple-touch-icon" sizes="120x120" href="icons/apple/name_tag_120.png">
@@ -16,14 +17,36 @@
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
     <title>Generate Names</title>
+    <script src="js/upup.min.js"></script>
+    <script>
+        UpUp.start({
+            'content-url': 'index.html', // show this when the user is offline
+            'assets': [                 // define additional assets needed while offline:
+                'css/fonts.css',
+                'css/page.css',
+                'fonts/Ubuntu-Regular-subset.woff',
+                'fonts/Ubuntu-Regular-subset.ttf',
+                'icons/apple/name_tag_60.png',
+                'icons/apple/name_tag_76.png',
+                'icons/apple/name_tag_120.png',
+                'icons/apple/name_tag_152.png',
+                'img/bg20.gif',
+                'img/name_tag.svg',
+                'js/main.js',
+                'js/pouchdb-6.1.2.min.js',
+                'js/require.js'
+            ]
+        });
+    </script>
 </head>
+
 <body>
     <div id="consol"></div>
     <section id="options">
         <h2>Name options</h2>
-        <button type="button" value="Female" >Female</button>
-        <button type="button" value="Male" >Male</button>
-        <button type="button" value="Random" >Random</button>
+        <button type="button" value="Female">Female</button>
+        <button type="button" value="Male">Male</button>
+        <button type="button" value="Random">Random</button>
     </section>
     <section>
         <h2>Names</h2>
@@ -31,6 +54,7 @@
         </ul>
     </section>
 </body>
+
 </html>
 <!-- Copyright 2015 Pieter van der Eems -->
 <!-- This file is part of Zone
