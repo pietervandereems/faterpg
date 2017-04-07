@@ -1,0 +1,27 @@
+body {
+    display: grid;
+    grid-template-rows: 1fr 2fr 2fr 1fr;
+}
+
+.naw {
+    display: grid;
+    grid-template-columns: 6fr 1fr 4fr;
+    grid-template-rows: 1fr 1fr 3fr;
+}
+
+.stats {
+    display: grid;
+    grid-template-columns: 2fr 3fr;
+    grid-template-rows: 1fr 1 fr 1fr 1fr 1fr 1fr;
+}
+.specials {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: 1fr 6fr;
+}
+
+.state {
+    display: grid;
+    grid-template-columns: 1fr 2fr;
+    grid-template-rows: 1fr 1fr 1fr 1fr;
+}
