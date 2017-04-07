@@ -1,6 +1,6 @@
 /*jslint browser:true, nomen:true, devel:true*/
 /*global requirejs*/
-requirejs(['pouchdb-5.1.0.min'], function (Pouchdb) {
+requirejs(['pouchdb-6.1.2.min'], function (Pouchdb) {
     'use strict';
     var db = new Pouchdb('utils'),
         remoteDb = new Pouchdb('https://utils.faterpg.nl/db/utils', {skip_setup: true}),
