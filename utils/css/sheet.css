@@ -19,9 +19,24 @@ body {
     grid-template-columns: 6fr 1fr;
     grid-template-rows: 1fr 1fr 3fr;
     grid-template-areas:
-        "naw_header naw_header naw_header"
+        "naw_header naw_header"
         "name refresh"
         "description refresh";
+}
+
+.aspects {
+    grid-area: aspects;
+    display: grid;
+    grid-template-rows: repeat(6, 1fr);
+}
+
+.skills {
+    grid-area: skills;
+    display: grid;
+    grid-template-rows: repeat(6, 1fr);
+    grid-template-columns: repeat(6, 1fr);
+    grid-template-areas:
+        "skills_header skills_header skills_header skills_header skills_header skills_header"
 }
 
 .logo {
@@ -37,6 +52,10 @@ body {
 
 .naw .header {
     grid-area: naw_header;
+}
+
+.skills .header {
+    grid-area: skills_header;
 }
 
 .name {
