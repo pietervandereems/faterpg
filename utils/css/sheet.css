@@ -62,7 +62,9 @@ body {
 .header {
     color: white;
     background-color: black;
-    margin-left: 1em;
+    padding-left: 1em;
+    margin-left: 0.5em;
+    border-radius: 1em 0;
     text-transform: uppercase;
 }
 
