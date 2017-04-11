@@ -39,6 +39,22 @@ body {
         "skills_header skills_header skills_header skills_header skills_header skills_header"
 }
 
+.extras {
+    grid-area: extras;
+    display: grid;
+    grid-template-rows: 1fr 5fr;
+    grid-template-areas:
+        "extras_header"
+}
+
+.stunts {
+    grid-area: stunts;
+    display: grid;
+    grid-template-rows: 1fr 5fr;
+    grid-template-areas:
+        "stunts_header"
+}
+
 .logo {
     grid-area: logo;
 }
@@ -56,6 +72,14 @@ body {
 
 .skills .header {
     grid-area: skills_header;
+}
+
+.extras .header {
+    grid-area: extras_header;
+}
+
+.stunts .header {
+    grid-area: stunts_header;
 }
 
 .name {
