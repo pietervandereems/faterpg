@@ -1,26 +1,30 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
+
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="black">
     <script data-main="js/aspects.js" src="js/require.js"></script>
     <link rel="stylesheet" type="text/css" href="css/fonts.css" />
     <link rel="stylesheet" type="text/css" href="css/aspect-page.css" />
-    
+
     <link rel="manifest" href="manifest.json">
-    
+
     <link rel="apple-touch-icon" href="icons/Fate_A_60.png">
     <link rel="apple-touch-icon" sizes="76x76" href="icons/Fate_A_76.png">
     <link rel="apple-touch-icon" sizes="120x120" href="icons/Fate_A_120.png">
     <link rel="apple-touch-icon" sizes="152x152" href="icons/Fate_A_152.png">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <script src="js/upup.min.js"></script>
     <title>Aspects -P1- v1</title>
 </head>
+
 <body>
     <header>
         <h1>Aspects -P1-</h1>
-        <img src="img/Powered by Fate Final Light BG.svg">
+        <img src="img/Powered by Fate Final Light BG.svg" alt="A">
     </header>
     <div id="main">
         <section data-input="new" class="note">
@@ -31,7 +35,14 @@
             <button type="button" data-action="push">Push</button>
         </section>
     </div>
+    <script>
+        UpUp.start({
+            'content-url': 'aspects.html'
+        });
+    </script>
+
 </body>
+
 </html>
 <!-- Copyright 2016 Pieter van der Eems -->
 <!-- This file is part of P1
