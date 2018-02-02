@@ -3,7 +3,7 @@
 /* global requirejs */
 requirejs(["pouchdb"], function internal (PouchDB) {
     const localDB = new PouchDB('paddyone'),
-        remoteDB = new PouchDB(window.location.protocol + '//' + window.location.hostname + '/db/paddyone'),
+        remoteDB = new PouchDB(window.location.protocol + '//' + window.location.hostname + '/db'),
         gmMode = (document.querySelector('title').textContent.substr(-2) === 'GM');
 
     var elements = {
