@@ -3,7 +3,7 @@
 requirejs(['pouchdb-6.1.2.min'], function (Pouchdb) {
     'use strict';
     var db = new Pouchdb('utils'),
-        remoteDb = new Pouchdb('https://utils.faterpg.nl/db/utils', {skip_setup: true}),
+        remoteDb = new Pouchdb('https://utils.faterpg.nl/db', {skip_setup: true}),
         elements = {},
 //        sync, // handler for the replication
         getDocObjects,
@@ -11,7 +11,6 @@ requirejs(['pouchdb-6.1.2.min'], function (Pouchdb) {
         getRandomObject,
         getNames,
         startSync;
-
     // **********************************************************
     // ** Get elements
     // **********************************************************
