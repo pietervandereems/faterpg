@@ -1,29 +1,48 @@
 {
-  "name": "Aspects -P1-",
-  "icons": [
-    {
-      "src": "img/Powered by Fate Final Light BG_A.svg",
-      "sizes": "36x36 48x48 72x72 96x96 144x144 168x168 192x192",
-      "type": "image/svg+xml"
-    }
-  ],
-  "splash_screens": [{
-      "src": "img/Powered by Fate Final Light BG_A.svg",
-      "sizes": "320x240 1334x750 1920x1080",
-      "type": "image/svg+xml",
-      "density": 1
-  },{
-      "src": "img/Powered by Fate Final Light BG_A.svg",
-      "sizes": "320x240 1334x750 1920x1080",
-      "type": "image/svg+xml",
-      "density": 2
-  },{
-      "src": "img/Powered by Fate Final Light BG_A.svg",
-      "sizes": "320x240 1334x750 1920x1080",
-      "type": "image/svg+xml",
-      "density": 3
-  } ],
-  "start_url": "/aspects.html",
-  "display": "standalone",
-  "orientation": "portrait"
+    "name": "Aspects -P1-",
+    "short_name": "Aspects",
+    "icons": [
+        {
+            "src": "img/Powered by Fate Final Light BG_A.svg",
+            "sizes": "36x36 48x48 72x72 96x96 144x144 168x168 192x192",
+            "type": "image/svg+xml"
+        },
+        {
+            "src": "img/Powered by Fate Final Light BG_A.144.png",
+            "type": "image/png",
+            "sizes": "144x144"
+        },
+        {
+            "src": "img/Powered by Fate Final Light BG_A.192.png",
+            "type": "image/png",
+            "sizes": "192x192"
+        },
+        {
+            "src": "img/Powered by Fate Final Light BG_A.512.png",
+            "type": "image/png",
+            "sizes": "512x512"
+        }
+
+    ],
+    "splash_screens": [{
+        "src": "img/Powered by Fate Final Light BG_A.svg",
+        "sizes": "320x240 1334x750 1920x1080",
+        "type": "image/svg+xml",
+        "density": 1
+    },{
+        "src": "img/Powered by Fate Final Light BG_A.svg",
+        "sizes": "320x240 1334x750 1920x1080",
+        "type": "image/svg+xml",
+        "density": 2
+    },{
+        "src": "img/Powered by Fate Final Light BG_A.svg",
+        "sizes": "320x240 1334x750 1920x1080",
+        "type": "image/svg+xml",
+        "density": 3
+    } ],
+    "display": "standalone",
+    "background_color": "black",
+    "theme_color": "black",
+    "start_url": "/aspects.html",
+    "orientation": "portrait"
 }
