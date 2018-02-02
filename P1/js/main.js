@@ -2,7 +2,7 @@
 /*global requirejs*/
 requirejs(["pouchdb"], function internal (PouchDB) {
     const localDB = new PouchDB('paddyone'),
-        remoteDB = new PouchDB(window.location.protocol + '//' + window.location.hostname + '/db/paddyone'),
+        remoteDB = new PouchDB(window.location.protocol + '//' + window.location.hostname + '/db'),
         elements = {
             selection: document.querySelector('#selection'),
             generate: document.querySelector('#selection').querySelector('button'),
