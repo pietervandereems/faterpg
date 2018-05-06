@@ -85,7 +85,7 @@ requirejs(["pouchdb"], function internal (PouchDB) {
             elements.main.appendChild(section);
         } else {
             for (index = 0; index < noteList.length; index += 1) {
-                if (note.name > noteList[index].dataset.name) {
+                if (note.name < noteList[index].dataset.name) {
                     break;
                 }
             }
