@@ -43,9 +43,9 @@ requirejs(["pouchdb"], function internal (PouchDB) {
      * UI Functions
      */
     const addNote = function addNote (note) {
-        var noteList = elements.main.querySelectorAll('section[data-type="show"]'),
-            index,
-            newSection,
+        const noteList  = elements.main.querySelectorAll('section[data-type="show"]');
+
+        let index,
             html = '';
 
         if (note._deleted) {
@@ -54,12 +54,12 @@ requirejs(["pouchdb"], function internal (PouchDB) {
         if (!gmMode && !note.pcVisible) {
             return;
         }
+        const section = document.querySelector(`[data-id=${note._id}]`) || document.createElement("section");
 
-        newSection = document.createElement("section");
-        newSection.setAttribute('data-type', 'show');
-        newSection.setAttribute('data-id', note._id);
-        newSection.setAttribute('data-rev', note._rev);
-        newSection.classList.add('note');
+        section.setAttribute('data-type', 'show');
+        section.setAttribute('data-id', note._id);
+        section.setAttribute('data-rev', note._rev);
+        section.classList.add('note');
         html += '<h2>';
         if (gmMode) {
             const pcAction = (note.pcVisible) ? 'pcDisable' : 'pcEnable';
@@ -72,16 +72,20 @@ requirejs(["pouchdb"], function internal (PouchDB) {
             html += '<li>' + aspect + '</li>';
         });
         html += '</ul>';
-        newSection.innerHTML = html;
+        section.innerHTML = html;
+        if (section.parentNode) {
+            section.parentNode.replaceChild(section);
+            return;
+        }
         if (noteList.length === 0) {
-            elements.main.appendChild(newSection);
+            elements.main.appendChild(section);
         } else {
             for (index = 0; index < noteList.length; index += 1) {
                 if (note.name > noteList[index].name) {
                     break;
                 }
             }
-            elements.main.insertBefore(newSection, noteList[index]);
+            elements.main.insertBefore(section, noteList[index]);
         }
     };
 
