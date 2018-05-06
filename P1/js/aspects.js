@@ -6,19 +6,14 @@ requirejs(["pouchdb"], function internal (PouchDB) {
         remoteDB = new PouchDB(window.location.protocol + '//' + window.location.hostname + '/db'),
         gmMode = (document.querySelector('title').textContent.substr(-2) === 'GM');
 
-    var elements = {
-            main: document.querySelector('#main'),
-            newNote: document.querySelector('section[data-input="new"]')
-        },
-        replicator,
-        // Functions
-        handleChanges,
-        saveNote;
+    const elements = {
+        main: document.querySelector('#main'),
+        newNote: document.querySelector('section[data-input="new"]')
+    };
 
-
-/*
- * Helper functions
- */
+    /*
+     * Helper functions
+     */
     const findParent = function (node, tags) {
         var found = false;
         if (node.tagName === 'BODY') {
@@ -38,15 +33,15 @@ requirejs(["pouchdb"], function internal (PouchDB) {
         return findParent(node.parentNode, tags);
     };
 
-    const semiRandomId = function  semiRandomId () {
+    const semiRandomId = function semiRandomId () {
         return Math.floor((1 + Math.random()) * 0x1000000000)
             .toString(16)
             .substring(1);
     };
 
-/*
- * UI Functions
- */
+    /*
+     * UI Functions
+     */
     const addNote = function addNote (note) {
         var noteList = elements.main.querySelectorAll('section[data-type="show"]'),
             index,
@@ -67,7 +62,7 @@ requirejs(["pouchdb"], function internal (PouchDB) {
         newSection.classList.add('note');
         html += '<h2>';
         if (gmMode) {
-            const pcAction = (note.pcVisible)?'pcDisable':'pcEnable';
+            const pcAction = (note.pcVisible) ? 'pcDisable' : 'pcEnable';
             html += '<button type="button" data-action="' + pcAction + '">u</button>';
             html += '<button type="button" data-action="delete">x</button>';
         }
@@ -105,20 +100,107 @@ requirejs(["pouchdb"], function internal (PouchDB) {
                 deleteNote(result);
             })
             .catch(function (err) {
-                console.error('Error deleting doc', {note: note, err: err});
+                console.error('Error deleting doc', { note: note, err: err });
             });
     };
 
-/*
- * React to user interaction
- */
+
+    /*
+     * Database
+     */
+
+    const saveNote = function saveNote (element) {
+        var doc = {
+            aspects: []
+        };
+        doc._id = 'aspect-' + semiRandomId();
+        doc.name = element.querySelector('h2').querySelector('input').value;
+        Array.from(element.querySelector('ul').querySelectorAll('input'))
+            .forEach(function walkInputs (inputElm) {
+                if (inputElm.value === '') {
+                    return;
+                }
+                doc.aspects.push(inputElm.value);
+            });
+        localDB.put(doc)
+            .then()
+            .catch(function putCatch (err) {
+                console.error('Error saving new note', err);
+            });
+
+    };
+
+    const togglePCVisible = function (note, visible) {
+        localDB.get(note.dataset.id)
+            .then(function (doc) {
+                doc.pcVisible = visible;
+                localDB.put(doc)
+                    .then(function () {
+                        note.dataset.action = (visible) ? 'pcEnable' : 'pcDisable';
+                    })
+                    .catch(function (err) {
+                        console.error('Error saving note for togglePCVisible', { doc: doc, note: note, visible: visible, err: err });
+                    });
+            })
+            .catch(function (err) {
+                console.error('Error getting note for togglePCVisible', { note: note, visible: visible, err: err });
+            });
+    };
+
+    const handleChanges = function handleChanges (change) {
+        console.info('Change to be handled', change);
+        change.docs.forEach(function doChanges (doc) {
+            if (doc._deleted) {
+                deleteNote(doc);
+            } else {
+                addNote(doc);
+            }
+        });
+    };
+
+    /*
+    * MAIN
+    */
+    PouchDB.sync(localDB, remoteDB, {
+        live: true,
+        retry: true
+    }).on('change', function syncChange (info) {
+        if (info.direction === 'pull') {
+            console.info('Incoming change', info);
+            handleChanges(info.change);
+        } else {
+            console.warn('Other change', info);
+            handleChanges(info.change);
+        }
+    });
+
+    (function getInitial () {
+        localDB.allDocs({
+            include_docs: true,
+            startkey: 'aspect-',
+            endkey: 'aspect-\uffff'
+        })
+            .then(function (docs) {
+                docs.rows.forEach(function (row) {
+                    addNote(row.doc);
+                });
+            })
+            .catch(function (err) {
+                console.error('Error with allDocs', err);
+            });
+
+    }());
+
+    /*
+     * React to user interaction
+     */
 
     elements.main.addEventListener('click', function mainClick (ev) {
         if (ev.target.tagName === 'BUTTON') {
             if (!ev.target.dataset.action) {
                 return;
             }
-            switch(ev.target.dataset.action) {
+            switch (ev.target.dataset.action) {
             case 'push':
                 saveNote(ev.target.parentNode);
                 break;
@@ -166,86 +248,4 @@ requirejs(["pouchdb"], function internal (PouchDB) {
         }
     });
 
-/*
- * Database
- */
-
-    saveNote = function saveNote (element) {
-        var doc = {
-            aspects: []
-        };
-        doc._id = 'aspect-' + semiRandomId();
-        doc.name = element.querySelector('h2').querySelector('input').value;
-        Array.from(element.querySelector('ul').querySelectorAll('input'))
-            .forEach(function walkInputs (inputElm) {
-                if (inputElm.value === '') {
-                    return;
-                }
-                doc.aspects.push(inputElm.value);
-            });
-        localDB.put(doc)
-            .then()
-            .catch(function putCatch (err) {
-                console.error('Error saving new note', err);
-            });
-
-    };
-    
-    const togglePCVisible = function (note, visible) {
-        localDB.get(note.dataset.id)
-            .then(function (doc) {
-                doc.pcVisible = visible;
-                localDB.put(doc)
-                .then(function () {
-                    note.dataset.action = (visible)?'pcEnable':'pcDisable';
-                })
-                .catch(function (err) {
-                    console.error('Error saving note for togglePCVisible', {doc: doc, note: note, visible: visible, err: err});
-                });
-            })
-            .catch(function (err) {
-                console.error('Error getting note for togglePCVisible', {note: note, visible: visible, err: err});
-            });
-    };
-
-    handleChanges = function handleChanges (change) {
-        console.info('Change to be handled', change);
-        change.docs.forEach(function doChanges (doc) {
-            if (doc._deleted) {
-                deleteNote(doc);
-            } else {
-                addNote(doc);
-            }
-        });
-    };
-
-    replicator = PouchDB.sync(localDB, remoteDB, {
-        live: true,
-        retry: true
-    }).on('change', function syncChange (info) {
-        if (info.direction === 'pull') {
-            console.info('Incoming change', info);
-            handleChanges(info.change);
-        } else {
-            console.warn('Other change', info);
-            handleChanges(info.change);
-        }
-    });
-
-    (function getInitial () {
-        localDB.allDocs({
-            include_docs: true,
-            startkey: 'aspect-',
-            endkey: 'aspect-\uffff'
-        })
-        .then(function (docs) {
-            docs.rows.forEach(function (row) {
-                addNote(row.doc);
-            });
-        })
-        .catch(function (err) {
-            console.error('Error with allDocs', err);
-        });
-
-    }());
 });
