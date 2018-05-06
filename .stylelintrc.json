@@ -1,0 +1,21 @@
+{
+    "extends": "stylelint-config-recommended",
+    "rules": {
+        "selector-type-no-unknown": [
+            true,
+            {
+                "ignore": [
+                    "custom-elements"
+                ]
+            }
+        ],
+        "selector-pseudo-element-no-unknown": [
+            true,
+            {
+                "ignorePseudoElements": [
+                    "ng-deep"
+                ]
+            }
+        ]
+    }
+}
