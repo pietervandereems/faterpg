@@ -62,6 +62,7 @@ requirejs(["pouchdb"], function internal (PouchDB) {
         section.setAttribute('data-type', 'show');
         section.setAttribute('data-id', note._id);
         section.setAttribute('data-rev', note._rev);
+        section.setAttribute('data-name', note.name);
         section.classList.add('note');
         html += '<h2>';
         if (gmMode) {
@@ -84,12 +85,10 @@ requirejs(["pouchdb"], function internal (PouchDB) {
             elements.main.appendChild(section);
         } else {
             for (index = 0; index < noteList.length; index += 1) {
-                console.log(noteList[index].name, note.name, index);
-                if (note.name > noteList[index].name) {
+                if (note.name > noteList[index].dataset.name) {
                     break;
                 }
             }
-            console.log(index);
             elements.main.insertBefore(section, noteList[index]);
         }
     };
