@@ -1,7 +1,7 @@
 /* eslint no-console: ["error", { allow: ["info", "warn", "error"]}] */
 /* eslint one-var: off */
 /* global requirejs */
-requirejs(["pouchdb"], function internal (PouchDB) {
+requirejs(["pouchdb"], (PouchDB) => {
     const localDB = new PouchDB('paddyone'),
         remoteDB = new PouchDB(window.location.protocol + '//' + window.location.hostname + '/db'),
         gmMode = (document.querySelector('title').textContent.substr(-2) === 'GM');
@@ -14,7 +14,7 @@ requirejs(["pouchdb"], function internal (PouchDB) {
     /*
      * Helper functions
      */
-    const findParent = function (node, tags) {
+    const findParent = (node, tags) => {
         let found = false;
         if (node.tagName === 'BODY') {
             return false;
@@ -22,7 +22,7 @@ requirejs(["pouchdb"], function internal (PouchDB) {
         if (!Array.isArray(tags)) {
             tags = [tags];
         }
-        tags.forEach(function (tag) {
+        tags.forEach((tag) => {
             if (node.tagName === tag.toUpperCase()) {
                 found = true;
             }
@@ -33,17 +33,15 @@ requirejs(["pouchdb"], function internal (PouchDB) {
         return findParent(node.parentNode, tags);
     };
 
-    const semiRandomId = function semiRandomId () {
-        return Math.floor((1 + Math.random()) * 0x1000000000)
-            .toString(16)
-            .substring(1);
-    };
+    const semiRandomId = () => Math.floor((1 + Math.random()) * 0x1000000000)
+        .toString(16)
+        .substring(1);
 
     /*
      * UI Functions
      */
-    const addNote = function addNote (note) {
-        const noteList  = elements.main.querySelectorAll('section[data-type="show"]');
+    const addNote = (note) => {
+        const noteList = elements.main.querySelectorAll('section[data-type="show"]');
 
         let index,
             html = '';
@@ -72,7 +70,7 @@ requirejs(["pouchdb"], function internal (PouchDB) {
         }
         html += note.name + '</h2>';
         html += '<ul>';
-        note.aspects.forEach(function addAspectsToSection (aspect) {
+        note.aspects.forEach((aspect) => {
             html += '<li>' + aspect + '</li>';
         });
         html += '</ul>';
@@ -93,21 +91,17 @@ requirejs(["pouchdb"], function internal (PouchDB) {
         }
     };
 
-    const deleteNote = function deleteNote (noteDoc) {
+    const deleteNote = (noteDoc) => {
         const toBeDeleted = elements.main.querySelector('section[data-id="' + noteDoc._id + '"]');
         if (toBeDeleted) {
             toBeDeleted.parentNode.removeChild(toBeDeleted);
         }
     };
 
-    const deleteNoteDoc = function deleteNoteDoc (note) {
+    const deleteNoteDoc = (note) => {
         localDB.remove(note.dataset.id, note.dataset.rev)
-            .then(function (result) {
-                deleteNote(result);
-            })
-            .catch(function (err) {
-                console.error('Error deleting doc', { note: note, err: err });
-            });
+            .then((result) => deleteNote(result))
+            .catch((err) => console.error('Error deleting doc', { note: note, err: err }));
     };
 
 
@@ -115,14 +109,14 @@ requirejs(["pouchdb"], function internal (PouchDB) {
      * Database
      */
 
-    const saveNote = function saveNote (element) {
+    const saveNote = (element) => {
         const doc = {
             aspects: []
         };
         doc._id = 'aspect-' + semiRandomId();
         doc.name = element.querySelector('h2').querySelector('input').value;
         Array.from(element.querySelector('ul').querySelectorAll('input'))
-            .forEach(function walkInputs (inputElm) {
+            .forEach((inputElm) => {
                 if (inputElm.value === '') {
                     return;
                 }
@@ -130,32 +124,26 @@ requirejs(["pouchdb"], function internal (PouchDB) {
             });
         localDB.put(doc)
             .then()
-            .catch(function putCatch (err) {
-                console.error('Error saving new note', err);
-            });
+            .catch((err) => console.error('Error saving new note', err));
 
     };
 
-    const togglePCVisible = function (note, visible) {
+    const togglePCVisible = (note, visible) => {
         localDB.get(note.dataset.id)
-            .then(function (doc) {
+            .then((doc) => {
                 doc.pcVisible = visible;
                 localDB.put(doc)
-                    .then(function () {
+                    .then(() => {
                         note.dataset.action = (visible) ? 'pcEnable' : 'pcDisable';
                     })
-                    .catch(function (err) {
-                        console.error('Error saving note for togglePCVisible', { doc: doc, note: note, visible: visible, err: err });
-                    });
+                    .catch((err) => console.error('Error saving note for togglePCVisible', { doc: doc, note: note, visible: visible, err: err }));
             })
-            .catch(function (err) {
-                console.error('Error getting note for togglePCVisible', { note: note, visible: visible, err: err });
-            });
+            .catch((err) => console.error('Error getting note for togglePCVisible', { note: note, visible: visible, err: err }));
     };
 
-    const handleChanges = function handleChanges (change) {
+    const handleChanges = (change) => {
         console.info('Change to be handled', change);
-        change.docs.forEach(function doChanges (doc) {
+        change.docs.forEach((doc) => {
             if (doc._deleted) {
                 deleteNote(doc);
             } else {
@@ -170,7 +158,7 @@ requirejs(["pouchdb"], function internal (PouchDB) {
     PouchDB.sync(localDB, remoteDB, {
         live: true,
         retry: true
-    }).on('change', function syncChange (info) {
+    }).on('change', (info) => {
         if (info.direction === 'pull') {
             console.info('Incoming change', info);
             handleChanges(info.change);
@@ -180,28 +168,24 @@ requirejs(["pouchdb"], function internal (PouchDB) {
         }
     });
 
-    (function getInitial () {
+    (() => {
         localDB.allDocs({
             include_docs: true,
             startkey: 'aspect-',
             endkey: 'aspect-\uffff'
         })
-            .then(function (docs) {
-                docs.rows.forEach(function (row) {
-                    addNote(row.doc);
-                });
+            .then((docs) => {
+                docs.rows.forEach((row) => addNote(row.doc));
             })
-            .catch(function (err) {
-                console.error('Error with allDocs', err);
-            });
+            .catch((err) => console.error('Error with allDocs', err));
 
-    }());
+    })();
 
     /*
      * React to user interaction
      */
 
-    elements.main.addEventListener('click', function mainClick (ev) {
+    elements.main.addEventListener('click', (ev) => {
         if (ev.target.tagName === 'BUTTON') {
             if (!ev.target.dataset.action) {
                 return;
@@ -223,7 +207,7 @@ requirejs(["pouchdb"], function internal (PouchDB) {
         }
     });
 
-    elements.main.addEventListener('keypress', function keypress (ev) {
+    elements.main.addEventListener('keypress', (ev) => {
         let parentList,
             parentItem,
             newItem,
