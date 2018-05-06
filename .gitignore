@@ -1,3 +1,4 @@
 #Ignore vi swap files
 *.swp
 *~
+**/node_modules
