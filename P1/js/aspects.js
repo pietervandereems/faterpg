@@ -51,10 +51,13 @@ requirejs(["pouchdb"], function internal (PouchDB) {
         if (note._deleted) {
             return;
         }
+        const section = document.querySelector(`[data-id=${note._id}]`) || document.createElement("section");
         if (!gmMode && !note.pcVisible) {
+            if (section.parentNode) {
+                section.parentNode.removeChild(section);
+            }
             return;
         }
-        const section = document.querySelector(`[data-id=${note._id}]`) || document.createElement("section");
 
         section.setAttribute('data-type', 'show');
         section.setAttribute('data-id', note._id);
