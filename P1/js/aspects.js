@@ -15,7 +15,7 @@ requirejs(["pouchdb"], function internal (PouchDB) {
      * Helper functions
      */
     const findParent = function (node, tags) {
-        var found = false;
+        let found = false;
         if (node.tagName === 'BODY') {
             return false;
         }
@@ -94,9 +94,7 @@ requirejs(["pouchdb"], function internal (PouchDB) {
     };
 
     const deleteNote = function deleteNote (noteDoc) {
-        var toBeDeleted;
-
-        toBeDeleted = elements.main.querySelector('section[data-id="' + noteDoc._id + '"]');
+        const toBeDeleted = elements.main.querySelector('section[data-id="' + noteDoc._id + '"]');
         if (toBeDeleted) {
             toBeDeleted.parentNode.removeChild(toBeDeleted);
         }
@@ -118,7 +116,7 @@ requirejs(["pouchdb"], function internal (PouchDB) {
      */
 
     const saveNote = function saveNote (element) {
-        var doc = {
+        const doc = {
             aspects: []
         };
         doc._id = 'aspect-' + semiRandomId();
@@ -226,7 +224,7 @@ requirejs(["pouchdb"], function internal (PouchDB) {
     });
 
     elements.main.addEventListener('keypress', function keypress (ev) {
-        var parentList,
+        let parentList,
             parentItem,
             newItem,
             newInput;
