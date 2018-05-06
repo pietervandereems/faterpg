@@ -1,1 +1,1 @@
-pouchdb-5.3.2.min.js
+pouchdb-6.4.3.min.js
