@@ -16,47 +16,47 @@ requirejs(["pouchdb"], function internal (PouchDB) {
     displayLifepath = function displayLifepath (elm, prop) {
 
         localDB.get('lifepath')
-        .then(function displayLifepathGetThen (doc) {
-            var row = document.createElement('tr'),
-                rowText = '',
-                inner = elm.querySelector('table'),
-                newTable = !(inner);
+            .then(function displayLifepathGetThen (doc) {
+                var row = document.createElement('tr'),
+                    rowText = '',
+                    inner = elm.querySelector('table'),
+                    newTable = !(inner);
 
-            rowText = '';
-            if (!doc[prop]) {
-                console.error('Cannot display lifepath property', {prop: prop, lifepath: doc});
-                return;
-            }
-            if (!Array.isArray(doc[prop])) {
-                console.error('Lifepath property is not an Array', {prop: doc[prop]});
-                return;
-            }
-            rowText += '<td>' + prop + '</td>';
-            rowText += '<td><select>';
-            doc[prop].forEach(function displayPropEach (propItem, index) {
-                rowText += '<option data-times="' + (propItem.times || '0') +
-                       '" data-item="' + index + '@' + prop + '"' +
-                       'data-next="' + propItem.next + '"' +
-                       '>' + propItem.text + '</option>';
+                rowText = '';
+                if (!doc[prop]) {
+                    console.error('Cannot display lifepath property', { prop: prop, lifepath: doc });
+                    return;
+                }
+                if (!Array.isArray(doc[prop])) {
+                    console.error('Lifepath property is not an Array', { prop: doc[prop] });
+                    return;
+                }
+                rowText += '<td>' + prop + '</td>';
+                rowText += '<td><select>';
+                doc[prop].forEach(function displayPropEach (propItem, index) {
+                    rowText += '<option data-times="' + (propItem.times || '0') +
+                        '" data-item="' + index + '@' + prop + '"' +
+                        'data-next="' + propItem.next + '"' +
+                        '>' + propItem.text + '</option>';
+                });
+                rowText += '</select></td>';
+                if (newTable) {
+                    inner = document.createElement('table');
+                }
+                row.innerHTML = rowText;
+                inner.appendChild(row);
+                if (newTable) {
+                    elm.appendChild(inner);
+                }
+            })
+            .catch(function displayLifepathGetCatch (err) {
+                console.error('Error getting lifepath doc to display', err);
             });
-            rowText += '</select></td>';
-            if (newTable) {
-                inner = document.createElement('table');
-            }
-            row.innerHTML = rowText;
-            inner.appendChild(row);
-            if (newTable) {
-                elm.appendChild(inner);
-            }
-        })
-        .catch(function displayLifepathGetCatch (err) {
-            console.error('Error getting lifepath doc to display', err);
-        });
     };
 
-/***********************************
- * Events
- ***********************************/
+    /***********************************
+     * Events
+     ***********************************/
     elements.generate.addEventListener('click', function btnGeneratePush (ev) {
         ev.preventDefault();
         displayLifepath(elements.traits, 'Hair Color');
@@ -67,38 +67,38 @@ requirejs(["pouchdb"], function internal (PouchDB) {
         console.log(ev.target);
     });
 
-/***********************************
- * Replicator
- ***********************************/
+    /***********************************
+     * Replicator
+     ***********************************/
 
-    const replicator = localDB.sync(remoteDB, {
+    localDB.sync(remoteDB, {
         live: true,
         retry: true
     })
-    .on('paused', function replPaused (err) {
-        console.info('paused');
-        if (err) {
-            console.error('Replicator paused on error', err);
-        }
-    })
-    .on('change', function replChange (info) {
-    // handle change
-        console.info('change', info);
-    })
-    .on('active', function replActive () {
-        console.info('active');
-    // replicate resumed (e.g. new changes replicating, user went back online)
-    })
-    .on('denied', function replDenied (err) {
-    // a document failed to replicate (e.g. due to permissions)
-        console.error('Replication denied', err);
-    })
-    .on('complete', function replComplete (info) {
-        console.info('complete', info);
-    // handle complete
-    })
-    .on('error', function replError (err) {
-        console.error('Replication Error', err);
-    // handle error
-    });
+        .on('paused', function replPaused (err) {
+            console.info('paused');
+            if (err) {
+                console.error('Replicator paused on error', err);
+            }
+        })
+        .on('change', function replChange (info) {
+            // handle change
+            console.info('change', info);
+        })
+        .on('active', function replActive () {
+            console.info('active');
+            // replicate resumed (e.g. new changes replicating, user went back online)
+        })
+        .on('denied', function replDenied (err) {
+            // a document failed to replicate (e.g. due to permissions)
+            console.error('Replication denied', err);
+        })
+        .on('complete', function replComplete (info) {
+            console.info('complete', info);
+            // handle complete
+        })
+        .on('error', function replError (err) {
+            console.error('Replication Error', err);
+            // handle error
+        });
 });
