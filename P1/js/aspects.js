@@ -84,10 +84,12 @@ requirejs(["pouchdb"], function internal (PouchDB) {
             elements.main.appendChild(section);
         } else {
             for (index = 0; index < noteList.length; index += 1) {
+                console.log(noteList[index].name, note.name, index);
                 if (note.name > noteList[index].name) {
                     break;
                 }
             }
+            console.log(index);
             elements.main.insertBefore(section, noteList[index]);
         }
     };
