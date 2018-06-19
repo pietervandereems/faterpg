@@ -47,7 +47,7 @@ td li[data-value]::after {
 }
 
 td li {
-    margin-left: 0px;
+    margin-left: 0;
 }
 
 /* Tables */
@@ -115,7 +115,7 @@ tr:last-child > td {
 
     /* old browser support */
 /*    display                 : -webkit-flex;*/ /* don't know why but for this to work in IOS Safari, this needs to be commented out */
-    -webkit-flex-direction  : row;
+    /* -webkit-flex-direction  : row;
     -webkit-flex-wrap       : wrap;
     -webkit-justify-content : center-around;
     -webkit-align-items     : flex-start;
@@ -125,7 +125,7 @@ tr:last-child > td {
     -ms-flex-wrap           : wrap;
     -ms-justify-content     : center;
     -ms-align-items         : flex-start;
-    -ms-align-content       : flex-start;
+    -ms-align-content       : flex-start; */
 }
 
 #stats li {
@@ -163,7 +163,7 @@ div {
     align-content   : flex-start;
 
     /* old browser support */
-    display                 : -webkit-flex;
+    /* display                 : -webkit-flex;
     -webkit-flex-direction  : row;
     -webkit-flex-wrap       : wrap;
     -webkit-justify-content : space-around;
@@ -174,15 +174,15 @@ div {
     -ms-flex-wrap           : wrap;
     -ms-justify-content     : space-around;
     -ms-align-items         : flex-start;
-    -ms-align-content       : flex-start;
+    -ms-align-content       : flex-start; */
 }
 
 #stats {
     justify-content : center;
 
     /* old browser support */
-    -webkit-justify-content : center;
-    -ms-justify-content     : center;
+    /* -webkit-justify-content : center;
+    -ms-justify-content     : center; */
 }
 
 /* Toolbar */
@@ -196,7 +196,7 @@ toolbar {
     align-content   : flex-start;
 
     /* old browser support */
-    display                 : -webkit-flex;
+    /* display                 : -webkit-flex;
     -webkit-flex-direction  : row;
     -webkit-flex-wrap       : nowrap;
     -webkit-justify-content : space-between;
@@ -207,7 +207,7 @@ toolbar {
     -ms-flex-wrap           : nowrap;
     -ms-justify-content     : space-between;
     -ms-align-items         : stretch;
-    -ms-align-content       : flex-start;
+    -ms-align-content       : flex-start; */
 }
 
 toolbar ul {
@@ -221,8 +221,8 @@ toolbar ul {
     font-size: 25px;
 
     /* Better Font Rendering =========== */
-    -webkit-font-smoothing: antialiased;
-    -moz-osx-font-smoothing: grayscale;
+    /* -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale; */
 }
 
 toolbar li {
