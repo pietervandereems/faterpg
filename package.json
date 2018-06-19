@@ -1,0 +1,19 @@
+{
+  "name": "faterpg",
+  "version": "1.0.0",
+  "description": "A collection of fate rpg related apps and experiments",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "pietere@192.168.10.10:/opt/main/Git.repos/faterpg"
+  },
+  "author": "Pieter van der eems",
+  "license": "AGPL-3.0",
+  "devDependencies": {
+    "eslint": "^4.19.1",
+    "eslint-plugin-html": "^4.0.3"
+  }
+}
