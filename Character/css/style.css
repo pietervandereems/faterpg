@@ -279,6 +279,10 @@ img#logo {
     border-color: gray;
 }
 
+.block.notused {
+    border-color: gray;
+}
+
 .disabled {
     display: none;
 }
