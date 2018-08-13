@@ -29,6 +29,12 @@ textarea {
     font-family: inherit;
 }
 
+input {
+    font-family: inherit;
+    font-size: inherit;
+    width: calc(100% - 7px);
+}
+
 #line1 {
     grid-row: 1;
     display: grid;
