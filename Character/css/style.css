@@ -261,3 +261,14 @@ img#logo {
     font-family: "Gotham", Arial, Helvetica, sans-serif;
 }
 
+.notused {
+    color: gray;
+}
+
+.notused .block {
+    border-color: gray;
+}
+
+.disabled {
+    display: none;
+}
