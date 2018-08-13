@@ -42,11 +42,15 @@ li {
 #line3 {
     display: grid;
     grid-template-areas: "Extras Stunts";
+    grid-template-columns: 1fr 1fr;
+    grid-column-gap: 25px;
 }
 
 #line4 {
     display: grid;
     grid-template-areas: "Stress Consequences";
+    grid-template-columns: 1fr 3fr;
+    grid-column-gap: 25px;
 }
 
 .ID {
@@ -120,7 +124,7 @@ img#logo {
 
 .skillList {
     display: grid;
-    grid-template-columns: 1fr 2fr 2fr 2fr 2fr 2fr;
+    grid-template-columns: 1fr repeat(5, 2fr);
     grid-column-gap: 5px;
 }
 
@@ -129,13 +133,31 @@ img#logo {
     color: gray;
 }
 
+.extra_stunts {
+    display: grid;
+    grid-row-gap: 5px;
+    grid-template-areas: "Header"
+                         "text"
+}
+
 .extras {
     grid-area: Extras;
+}
+
+.extras textarea {
+    height: 6em;
+    width: calc(100% - 5px);
 }
 
 .stunts {
     grid-area: Stunts;
 }
+
+.stunts textarea {
+    height: 6em;
+    width: calc(100% - 5px);
+}
+
 
 .stress {
     grid-area: Stress;
