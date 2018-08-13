@@ -26,6 +26,7 @@ li {
 }
 
 #line1 {
+    grid-row: 1;
     display: grid;
     grid-template-areas: "ID Logo";
     grid-template-columns: auto 220px;
@@ -33,6 +34,7 @@ li {
 }
 
 #line2 {
+    grid-row: 2;
     display: grid;
     grid-template-areas: "Aspects Skills";
     grid-template-columns: 1fr 2fr;
@@ -40,6 +42,7 @@ li {
 }
 
 #line3 {
+    grid-row: 3;
     display: grid;
     grid-template-areas: "Extras Stunts";
     grid-template-columns: 1fr 1fr;
@@ -47,6 +50,7 @@ li {
 }
 
 #line4 {
+    grid-row: 4;
     display: grid;
     grid-template-areas: "Stress Consequences";
     grid-template-columns: 1fr 3fr;
@@ -161,16 +165,67 @@ img#logo {
 
 .stress {
     grid-area: Stress;
+    display: grid;
+    grid-template-areas: "Physical"
+                         "Mental";
+    grid-row-gap: 10px;
+}
+
+#physical {
+    grid-area: Physical;
+    display: grid;
+    grid-template-areas: "Header Header Header Header"
+                         "one two three four";
+    grid-template-columns: repeat(4, 1fr);
+    grid-row-gap: 8px;
+}
+
+#mental {
+    grid-area: Mental;
+    display: grid;
+    grid-template-areas: "Header Header Header Header"
+                         "one two three four";
+    grid-template-columns: repeat(4, 1fr);
+    grid-row-gap: 8px;
 }
 
 .consequences {
-    grid-area: Consequences
+    grid-area: Consequences;
 }
 
 .block {
     border-width: 2px;
     border-color: black;
     border-style: solid;
+}
+
+.one {
+    grid-area: one;
+}
+
+.two {
+    grid-area: two;
+}
+
+.three {
+    grid-area: three;
+}
+
+.four {
+    grid-area: four;
+}
+
+.stressblock {
+    width: 1.5em;
+    height: 1.5em;
+    font-family: "Gotham", Arial, Helvetica, sans-serif;
+}
+
+.stressblock p {
+    position: relative;
+    top: -31px;
+    left: -8px;
+    font-size: 21px;
 }
 
 .header {
