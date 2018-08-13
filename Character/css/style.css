@@ -209,6 +209,7 @@ img#logo {
                          "three six";
     grid-template-columns: 1fr 1fr;
     grid-row-gap: 8px;
+    height: 1em;
 }
 
 .block {
@@ -244,6 +245,7 @@ img#logo {
 .c-main {
     width: calc(100% - 10px);
     justify-self: right;
+    height: 2em;
 }
 .stressblock {
     width: 1.5em;
@@ -257,9 +259,18 @@ img#logo {
     font-size: 21px;
 }
 
+.c-main p {
+    position: relative;
+    top: -38px;
+    left: -8px;
+    font-size: 21px;
+    margin: 0;
+}
+
 .consequenceblock {
     width: calc(100% - 20px);
     height: 1.5em;
+    font-family: "germaniaOne", Arial, Helvetica, sans-serif
 }
 
 .header {
