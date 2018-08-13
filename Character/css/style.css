@@ -25,6 +25,10 @@ li {
     margin: 5px 0;
 }
 
+textarea {
+    font-family: inherit;
+}
+
 #line1 {
     grid-row: 1;
     display: grid;
