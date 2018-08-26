@@ -150,7 +150,8 @@ img#logo {
 
 .extra_stunts {
     display: grid;
-    grid-row-gap: 5px;
+    grid-row-gap: 1em;
+    grid-template-rows: 1em auto;
     grid-template-areas: "Header"
                          "text"
 }
