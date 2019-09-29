@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "build": "webpack --config webpack.config.js",
+    "build_character": "cd Character;webpack --config webpack.config.js",
     "lint_character": "eslint Character/src/sheet.js"
   },
   "repository": {
@@ -15,8 +15,12 @@
   "author": "Pieter van der eems",
   "license": "AGPL-3.0",
   "devDependencies": {
+    "css-loader": "^3.2.0",
     "eslint": "^6.5.0",
     "eslint-plugin-html": "^6.0.0",
+    "file-loader": "^4.2.0",
+    "image-webpack-loader": "^6.0.0",
+    "style-loader": "^1.0.0",
     "webpack": "^4.41.0",
     "webpack-cli": "^3.3.9"
   },

@@ -1,3 +1,17 @@
+@font-face {
+    font-family: "germaniaOne";
+    src: url("./GermaniaOne-Regular-subset.woff") format("woff");
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: "Gotham";
+    src: url("./Gotham Ultra-subset.woff") format("woff");
+    font-weight: bold;
+    font-style: normal;
+}
+
 html {
     background-color: white;
     color: black;
@@ -5,7 +19,7 @@ html {
     height: 100%;
     margin: 0;
     padding: 0;
-    font-family: "germaniaOne", Arial, Helvetica, sans-serif
+    font-family: "germaniaOne", Arial, Helvetica, sans-serif;
 }
 
 body {
@@ -71,15 +85,15 @@ input {
 .ID {
     grid-area: ID;
     display: grid;
-    grid-template-areas: "Header Header"
-                         "Name Refresh"
-                         "Description Refresh";
+    grid-template-areas:
+        "Header Header"
+        "Name Refresh"
+        "Description Refresh";
     grid-template-rows: 1fr 1fr 2fr;
     grid-template-columns: auto 5em;
     grid-row-gap: 5px;
     grid-column-gap: 5px;
 }
-
 
 #Name {
     grid-area: Name;
@@ -87,7 +101,6 @@ input {
 
 #Description {
     grid-area: Description;
-
 }
 
 #Refresh {
@@ -100,7 +113,6 @@ img#logo {
     grid-area: Logo;
 }
 
-
 .aspects {
     grid-area: Aspects;
 }
@@ -109,12 +121,13 @@ img#logo {
     grid-area: Skills;
     display: grid;
     grid-row-gap: 5px;
-    grid-template-areas: "Header"
-                         "Superb"
-                         "Great"
-                         "Good"
-                         "Fair"
-                         "Average";
+    grid-template-areas:
+        "Header"
+        "Superb"
+        "Great"
+        "Good"
+        "Fair"
+        "Average";
 }
 
 #superb {
@@ -152,8 +165,9 @@ img#logo {
     display: grid;
     grid-row-gap: 1em;
     grid-template-rows: 1em auto;
-    grid-template-areas: "Header"
-                         "text"
+    grid-template-areas:
+        "Header"
+        "text";
 }
 
 .extras {
@@ -174,20 +188,21 @@ img#logo {
     width: calc(100% - 5px);
 }
 
-
 .stress {
     grid-area: Stress;
     display: grid;
-    grid-template-areas: "Physical"
-                         "Mental";
+    grid-template-areas:
+        "Physical"
+        "Mental";
     grid-row-gap: 10px;
 }
 
 #physical {
     grid-area: Physical;
     display: grid;
-    grid-template-areas: "Header Header Header Header"
-                         "one two three four";
+    grid-template-areas:
+        "Header Header Header Header"
+        "one two three four";
     grid-template-columns: repeat(4, 1fr);
     grid-row-gap: 8px;
 }
@@ -195,8 +210,9 @@ img#logo {
 #mental {
     grid-area: Mental;
     display: grid;
-    grid-template-areas: "Header Header Header Header"
-                         "one two three four";
+    grid-template-areas:
+        "Header Header Header Header"
+        "one two three four";
     grid-template-columns: repeat(4, 1fr);
     grid-row-gap: 8px;
 }
@@ -204,10 +220,11 @@ img#logo {
 .consequences {
     grid-area: Consequences;
     display: grid;
-    grid-template-areas: "Header Header"
-                         "one four"
-                         "two five"
-                         "three six";
+    grid-template-areas:
+        "Header Header"
+        "one four"
+        "two five"
+        "three six";
     grid-template-columns: 1fr 1fr;
     grid-row-gap: 8px;
     height: 1em;
@@ -271,7 +288,7 @@ img#logo {
 .consequenceblock {
     width: calc(100% - 20px);
     height: 1.5em;
-    font-family: "germaniaOne", Arial, Helvetica, sans-serif
+    font-family: "germaniaOne", Arial, Helvetica, sans-serif;
 }
 
 .header {
