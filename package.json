@@ -20,6 +20,6 @@
     "webpack": "^4.41.0"
   },
   "dependencies": {
-    "pouchdb": "^7.1.1"
+    "pouchdb-browser": "^7.1.1"
   }
 }
