@@ -4,7 +4,9 @@
   "description": "A collection of fate rpg related apps and experiments",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "webpack --config webpack.config.js",
+    "lint_character": "eslint Character/src/sheet.js"
   },
   "repository": {
     "type": "git",
@@ -14,6 +16,10 @@
   "license": "AGPL-3.0",
   "devDependencies": {
     "eslint": "^6.5.0",
-    "eslint-plugin-html": "^6.0.0"
+    "eslint-plugin-html": "^6.0.0",
+    "webpack": "^4.41.0"
+  },
+  "dependencies": {
+    "pouchdb": "^7.1.1"
   }
 }
