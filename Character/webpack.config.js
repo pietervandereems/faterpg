@@ -1,11 +1,15 @@
 const path = require('path');
 
 module.exports = {
+    mode: 'development',
     entry: './src/sheet.js',
     output: {
         filename: 'bundle.js',
         // eslint-disable-next-line no-undef
         path: path.resolve(__dirname, 'dist'),
+    },
+    resolve: {
+        modules: ['../node_modules']
     },
     module: {
         rules: [
@@ -35,5 +39,14 @@ module.exports = {
                 ],
             },
         ]
+    },
+    devServer: {
+        // eslint-disable-next-line no-undef
+        contentBase: path.join(__dirname, 'dist'),
+        watchContentBase: true,
+        open: true,
+        openPage: '/sheet.html',
+        compress: true,
+        port: 9000
     }
 };
