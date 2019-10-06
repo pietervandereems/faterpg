@@ -45,7 +45,7 @@ module.exports = {
         contentBase: path.join(__dirname, 'dist'),
         watchContentBase: true,
         open: true,
-        openPage: '/sheet.html',
+        openPage: 'sheet.html',
         compress: true,
         port: 9000
     }
