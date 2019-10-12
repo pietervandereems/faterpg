@@ -5,11 +5,11 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "build_character": "cd Character;webpack --config webpack.config.js",
-    "lint_character": "eslint Character/src/sheet.js",
-    "dev_character": "cd Character;webpack-dev-server --config webpack.config.js",
-    "init:db": "docker run -d -p 5984:5984 -v `pwd`/pouchDBData:/pouchdb --hostname=faterpg --name=pouchdb-server scttmthsn/pouchdb-server",
-    "start:db": "docker start pouchdb-server"
+    "build:character": "cd Character;webpack --config webpack.config.js",
+    "lint:character": "eslint Character/src/sheet.js",
+    "dev:character": "cd Character;webpack-dev-server --config webpack.config.js",
+    "db:init": "docker run -d -p 5984:5984 -v `pwd`/pouchDBData:/pouchdb --hostname=faterpg --name=pouchdb-server scttmthsn/pouchdb-server",
+    "db:start": "docker start pouchdb-server"
   },
   "repository": {
     "type": "git",
@@ -19,14 +19,14 @@
   "license": "AGPL-3.0",
   "devDependencies": {
     "css-loader": "^3.2.0",
-    "eslint": "^6.5.0",
+    "eslint": "^6.5.1",
     "eslint-plugin-html": "^6.0.0",
     "file-loader": "^4.2.0",
     "image-webpack-loader": "^6.0.0",
     "style-loader": "^1.0.0",
-    "webpack": "^4.41.0",
+    "webpack": "^4.41.1",
     "webpack-cli": "^3.3.9",
-    "webpack-dev-server": "^3.8.1"
+    "webpack-dev-server": "^3.8.2"
   },
   "dependencies": {
     "pouchdb-browser": "^7.1.1"
