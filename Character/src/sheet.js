@@ -21,7 +21,12 @@ const getLocal = (() => db.get('localOne')
         console.error('error getting localOne', err);
     }))();
 
+const idToSheetvalue = (value) => (id) => id.split(':').reduceRight((acc, item) =>
+    (Object.keys(acc).length === 0 ? { [item]: value } : { [item]: acc }), {});
+
 document.querySelector('body').addEventListener('change', (change) => {
-    console.log('change event caught', { id: change.target.id, value: change.target.value });
-    db.get('localOne').then((doc) => db.put(Object.assign({}, doc, { [change.target.id]: change.target.value })));
+    // skill:fair:4, value="Pilot"
+    // ['skill','fair','4'] => {skill: {fair: {4: "Pilot"}}}
+    db.get('localOne').then((doc) => db.put(Object.assign({}, doc, idToSheetvalue(change.target.value)(change.target.id))));
 });
+
