@@ -4,7 +4,7 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import store from './utils/store';
 
-store.subscribe(() => console.log('state-logger', store.getState()));
+// store.subscribe(() => console.log('state-logger', store.getState()));
 
 ReactDOM.render(
   <Provider store={store}>
