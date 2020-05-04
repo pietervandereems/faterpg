@@ -10,9 +10,7 @@ const reducer = (state = [], action) => {
 };
 
 export const initializeSkills = () => async (dispatch) => {
-  console.log('initializeSkills');
   const skills = await service.getAll();
-  console.log('initializeSkills', { skills });
   dispatch({
     type: 'INIT_SKILLS',
     data: skills

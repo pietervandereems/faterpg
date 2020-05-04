@@ -7,4 +7,9 @@ const getAll = async () => {
   return response.data;
 };
 
-export default { getAll };
+const update = async (aspects) => {
+  const response = await axios.put(baseUrl, aspects);
+  return response.data;
+};
+
+export default { getAll, update };

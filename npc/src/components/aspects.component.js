@@ -1,3 +1,4 @@
+import AspectListForm from './aspectListForm.component';
 import PropTypes from 'prop-types';
 import React from 'react';
 import { useSelector } from 'react-redux';
@@ -16,7 +17,7 @@ const Aspects = () => {
 
   return (
     <>
-      <p>
+      <section>
         High Concept
         {aspectlist.highConcepts
           ? <ul>
@@ -24,8 +25,9 @@ const Aspects = () => {
           </ul>
           : null
         }
-      </p>
-      <p>
+        <AspectListForm type="highConcept" />
+      </section>
+      <section>
         Trouble
         {aspectlist.troubles
           ? <ul>
@@ -33,8 +35,9 @@ const Aspects = () => {
           </ul>
           : null
         }
-      </p>
-      <p>
+        <AspectListForm type="troubles" />
+      </section>
+      <section>
         Other
         {aspectlist.other
           ? <ul>
@@ -42,7 +45,8 @@ const Aspects = () => {
           </ul>
           : null
         }
-      </p>
+        <AspectListForm type="other" />
+      </section>
     </>
   );
 

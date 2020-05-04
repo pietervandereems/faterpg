@@ -10,7 +10,6 @@ const Skill = ({ skill }) => (
 
 const Skills = () => {
   const skilllist = useSelector((state) => state.skills);
-  console.log('Skills', { skilllist });
   if (!skilllist) {
     return null;
   }
