@@ -6,6 +6,7 @@ import KaijuGenerator from './components/kaijuGenerator.component';
 import Skills from './components/skills.component';
 import { initializeAspects } from './reducers/aspects.reducer';
 import { initializeKaijus } from './reducers/kaijus.reducer';
+import { initializeNames } from './reducers/names.reducer';
 import { initializeSkills } from './reducers/skills.reducer';
 import { useDispatch } from 'react-redux';
 
@@ -18,6 +19,7 @@ const App = () => {
     dispatch(initializeAspects());
     dispatch(initializeSkills());
     dispatch(initializeKaijus());
+    dispatch(initializeNames());
   }, [dispatch]);
 
 
