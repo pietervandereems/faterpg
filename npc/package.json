@@ -52,7 +52,6 @@
     "@types/testing-library__user-event": "^4.1.1",
     "eslint-plugin-html": "^6.0.2",
     "eslint-plugin-jest": "^23.9.0",
-    "jest": "^25.5.4",
     "json-server": "^0.16.1"
   }
 }
