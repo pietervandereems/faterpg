@@ -16,7 +16,6 @@ const Generator = () => {
   // const skilllist = useSelector((state) => state.skills);
   const aspects = useSelector((state) => state.aspects);
   const [stats, setStats] = useState({});
-
   const create = () => {
     setStats({
       highConcept: aspects.highConcepts[getRandomInt(aspects.highConcepts.length)],
@@ -26,8 +25,8 @@ const Generator = () => {
 
   return (
     <>
-      <button onClick={create}>Generate</button>
-      {stats ? <Npc stats={stats} /> : null}
+      <button onClick={create}>Npc</button>
+      {stats.trouble ? <Npc stats={stats} /> : null}
     </>
   );
 };
