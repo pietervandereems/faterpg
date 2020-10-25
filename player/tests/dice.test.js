@@ -9,13 +9,21 @@ describe('roll them dice', () => {
 
   describe('fudge', () => {
     test('+ + + + should equal 4', () => {
-      expect(rollDice([rollPlus, rollPlus, rollPlus, rollPlus]).result)
+      const rolled = rollDice([rollPlus, rollPlus, rollPlus, rollPlus])
+      expect(rolled.result)
         .toEqual(4)
+
+      expect(rolled.rolled)
+        .toEqual(['+', '+', '+', '+'])
     })
 
     test('+ - blank blank should equal 0', () => {
-      expect(rollDice([rollPlus, rollMin, rollBlank, rollBlank]).result)
+      const rolled = rollDice([rollPlus, rollMin, rollBlank, rollBlank])
+      expect(rolled.result)
         .toEqual(0)
+
+      expect(rolled.rolled)
+        .toEqual(['+', '-', '', ''])
     })
 
     test('A fudgeset should contain 4 dice', () => {
