@@ -1,4 +1,4 @@
-import { rollResult, fudgeSet } from '../dice.js'
+import { rollDice, fudgeSet } from '../utils/dice'
 import { repeat } from '../utils/repeat'
 
 describe('roll them dice', () => {
@@ -9,12 +9,12 @@ describe('roll them dice', () => {
 
   describe('fudge', () => {
     test('+ + + + should equal 4', () => {
-      expect(rollResult([rollPlus, rollPlus, rollPlus, rollPlus]))
+      expect(rollDice([rollPlus, rollPlus, rollPlus, rollPlus]).result)
         .toEqual(4)
     })
 
     test('+ - blank blank should equal 0', () => {
-      expect(rollResult([rollPlus, rollMin, rollBlank, rollBlank]))
+      expect(rollDice([rollPlus, rollMin, rollBlank, rollBlank]).result)
         .toEqual(0)
     })
 
@@ -24,14 +24,14 @@ describe('roll them dice', () => {
     })
 
     test('A fudgeset result should be between -4 and 4', () => {
-      const fudgeRoll = rollResult(fudgeSet)
+      const fudgeRoll = rollDice(fudgeSet)
       const roll100 = repeat(100, fudgeRoll)
 
-      roll100.forEach((roll) => {
-        expect(roll)
+      roll100.forEach(({ result }) => {
+        expect(result)
           .toBeGreaterThanOrEqual(-4)
 
-        expect(roll)
+        expect(result)
           .toBeLessThanOrEqual(4)
       })
     })
