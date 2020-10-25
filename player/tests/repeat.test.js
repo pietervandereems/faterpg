@@ -1,4 +1,4 @@
-import { repeat, repeatFunc } from '../utils/repeat'
+import { range, rangeFrom1, repeat, repeatFunc } from '../utils/repeat'
 import { jest } from '@jest/globals'
 
 describe('Repeat Module', () => {
@@ -36,6 +36,22 @@ describe('Repeat Module', () => {
 
       expect(result)
         .toEqual([2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2])
+    })
+  })
+
+  describe('Range', () => {
+    test('rangeFrom1(10) should give an array with numbers from 1 to 10', () => {
+      const rangeList = rangeFrom1(10)
+      expect(rangeList)
+        .toHaveLength(10)
+
+      expect(rangeList)
+        .toEqual([1, 2, 3, 4, 5, 6, 7, 8, 9, 10])
+    })
+    test('range 3 14 should give an array with numbers from 3 to 14', () => {
+      const rangeList = range(3)(14)
+      expect(rangeList)
+        .toEqual([3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14])
     })
   })
 })
