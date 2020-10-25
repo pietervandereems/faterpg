@@ -1,3 +1,5 @@
+import { range } from './utils/repeat'
+
 const dice = (sides = 6) => (range = ['+', '', '-']) => ({
   roll: () => {
     let roll = Math.floor(Math.random() * Math.floor(sides))
@@ -24,13 +26,15 @@ const interpretDie = (roll) => {
 
 const rollResult = (dice = []) => dice.reduce((result, die) => result + interpretDie(die.roll()), 0)
 
+const rangeFrom1 = range(1)
 const d6sided = dice(6)
+
 const fudge = d6sided(['+', '', '-'])
-const d4 = dice(4)([1, 2, 3, 4])
-const d6 = d6sided([1, 2, 3, 4, 5, 6])
-const d8 = dice(8)([1, 2, 3, 4, 5, 6, 7, 8])
-const d20 = dice(20)(1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20)
-const d10 = dice(10)(1, 2, 3, 4, 5, 6, 7, 8, 9, 10)
+const d4 = dice(4)(rangeFrom1(4))
+const d6 = d6sided(rangeFrom1(6))
+const d8 = dice(8)(rangeFrom1(8))
+const d10 = dice(10)(rangeFrom1(10))
+const d20 = dice(20)(rangeFrom1(20))
 const fudgeSet = [fudge, fudge, fudge, fudge]
 
 export {
