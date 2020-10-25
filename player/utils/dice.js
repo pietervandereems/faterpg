@@ -1,4 +1,4 @@
-import { range } from './utils/repeat'
+import { range } from './repeat'
 
 const dice = (sides = 6) => (range = ['+', '', '-']) => ({
   roll: () => {
@@ -24,7 +24,13 @@ const interpretDie = (roll) => {
   }
 }
 
-const rollResult = (dice = []) => dice.reduce((result, die) => result + interpretDie(die.roll()), 0)
+const rollDice = (dice = []) => dice.reduce(({ result = 0, rolled = [] }, die) => {
+  const roll = die.roll()
+  return {
+    result: result + interpretDie(roll),
+    rolled: [...rolled, roll]
+  }
+}, {})
 
 const rangeFrom1 = range(1)
 const d6sided = dice(6)
@@ -41,5 +47,5 @@ export {
   dice,
   d4, d6, d8, d10, d20,
   fudgeSet,
-  rollResult
+  rollDice
 }
