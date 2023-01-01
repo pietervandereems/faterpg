@@ -25,8 +25,8 @@
     "image-webpack-loader": "^7.0.1",
     "standard": "^14.3.4",
     "style-loader": "^1.2.1",
-    "webpack": "^4.44.2",
-    "webpack-cli": "^3.3.12",
+    "webpack": "^5.75.0",
+    "webpack-cli": "^5.0.1",
     "webpack-dev-server": "^3.11.0"
   },
   "dependencies": {
